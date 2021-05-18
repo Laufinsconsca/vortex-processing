@@ -1,0 +1,1048 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Settings</class>
+ <widget class="QWidget" name="Settings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>750</width>
+    <height>416</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>750</width>
+    <height>416</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>750</width>
+    <height>416</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Настройки</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="8" column="1">
+    <spacer name="horizontalSpacer_11">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="8" column="2">
+    <widget class="QComboBox" name="out_phase_color_scheme_combo_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>2</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>серая</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>огненная</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dusk</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dawn</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>seashore</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>kryptonite</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>teals</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>plasma</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>viridis</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="10" column="3">
+    <spacer name="horizontalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Цветовая схема выходной амплитуды&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Цветовая схема входной фазы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="4">
+    <widget class="QLabel" name="intensity_color_scheme_label">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Цветовая схема плотности ОУМ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Цветовая схема интенсивности&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="4">
+    <widget class="QLabel" name="in_phase_color_scheme_label">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <spacer name="horizontalSpacer_12">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="6" column="1">
+    <spacer name="horizontalSpacer_10">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="2">
+    <widget class="QComboBox" name="in_amplitude_color_scheme_combo_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>серая</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>огненная</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dusk</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dawn</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>seashore</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>kryptonite</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>teals</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>plasma</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>viridis</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="10" column="2">
+    <widget class="QComboBox" name="intensity_color_scheme_combo_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>серая</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>огненная</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dusk</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dawn</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>seashore</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>kryptonite</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>teals</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>plasma</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>viridis</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QComboBox" name="in_phase_color_scheme_combo_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>2</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>серая</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>огненная</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dusk</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dawn</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>seashore</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>kryptonite</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>teals</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>plasma</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>viridis</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QLabel" name="in_amplitude_color_scheme_label">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/fire_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="12" column="3">
+    <spacer name="horizontalSpacer_6">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="6" column="2">
+    <widget class="QComboBox" name="out_amplitude_color_scheme_combo_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>серая</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>огненная</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dusk</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dawn</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>seashore</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>kryptonite</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>teals</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>plasma</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>viridis</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="12" column="4">
+    <widget class="QLabel" name="oam_color_scheme_label">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Размер сохраняемого изображения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="3">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="9" column="2">
+    <spacer name="verticalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="6" column="4">
+    <widget class="QLabel" name="out_amplitude_color_scheme_label">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/fire_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="3">
+    <spacer name="horizontalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="5" column="2">
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Цветовая схема входной амплитуды&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Цветовая схема выходной фазы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <spacer name="horizontalSpacer_7">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="1">
+    <spacer name="horizontalSpacer_9">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="8" column="4">
+    <widget class="QLabel" name="out_phase_color_scheme_label">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>256</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QComboBox" name="size_combo_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>128×128</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>256×256</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>512×512</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1024×1024</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2048×2048</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="12" column="1">
+    <spacer name="horizontalSpacer_13">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="12" column="2">
+    <widget class="QComboBox" name="oam_color_scheme_combo_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>серая</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>огненная</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>радужная 5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dusk</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dawn</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>seashore</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>kryptonite</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>teals</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>plasma</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>viridis</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1">
+    <spacer name="horizontalSpacer_8">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="11" column="2">
+    <spacer name="verticalSpacer_6">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

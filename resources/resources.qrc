@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/">
+        <file>scales/fire_192.bmp</file>
+        <file>scales/fire_256.bmp</file>
+        <file>scales/rainbow_192.bmp</file>
+        <file>scales/rainbow_256.bmp</file>
+        <file>cmap/dusk.rgb</file>
+        <file>cmap/fire.rgb</file>
+        <file>cmap/gray.rgb</file>
+        <file>cmap/kryptonite.rgb</file>
+        <file>cmap/seashore.rgb</file>
+        <file>cmap/teals.rgb</file>
+        <file>cmap/viridis.rgb</file>
+        <file>cmap/plasma.rgb</file>
+        <file>cmap/rainbow_2.rgb</file>
+        <file>cmap/rainbow_3.rgb</file>
+        <file>cmap/rainbow_4.rgb</file>
+        <file>cmap/rainbow_5.rgb</file>
+        <file>cmap/dawn.rgb</file>
+        <file>cmap/rainbow.rgb</file>
+        <file>scales/gray_192.bmp</file>
+        <file>scales/gray_256.bmp</file>
+        <file>scales/plasma_192.bmp</file>
+        <file>scales/plasma_256.bmp</file>
+        <file>scales/rainbow_2_192.bmp</file>
+        <file>scales/rainbow_2_256.bmp</file>
+        <file>scales/rainbow_3_192.bmp</file>
+        <file>scales/rainbow_3_256.bmp</file>
+        <file>scales/viridis_256.bmp</file>
+        <file>scales/viridis_192.bmp</file>
+        <file>scales/rainbow_4_192.bmp</file>
+        <file>scales/rainbow_4_256.bmp</file>
+        <file>scales/dawn_192.bmp</file>
+        <file>scales/dawn_256.bmp</file>
+        <file>scales/dusk_192.bmp</file>
+        <file>scales/dusk_256.bmp</file>
+        <file>scales/kryptonite_192.bmp</file>
+        <file>scales/kryptonite_256.bmp</file>
+        <file>scales/rainbow_5_192.bmp</file>
+        <file>scales/rainbow_5_256.bmp</file>
+        <file>scales/scale.bmp</file>
+        <file>scales/seashore_192.bmp</file>
+        <file>scales/seashore_256.bmp</file>
+        <file>scales/teals_192.bmp</file>
+        <file>scales/teals_256.bmp</file>
+    </qresource>
+</RCC>
