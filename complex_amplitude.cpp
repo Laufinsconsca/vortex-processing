@@ -29,7 +29,7 @@ complex_amplitude::complex_amplitude(const class vortex& vortex, const QSize& si
  * @param	size            The size
  **************************************************************************************************/
 
-complex_amplitude::complex_amplitude(const gauss_beam gauss_beam, const class vortex& vortex, const QSize& size)
+complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class vortex& vortex, const QSize& size)
     : complex_amplitude(gauss_beam, vortex, size, none_hole) {}
 
 /**
@@ -65,7 +65,7 @@ complex_amplitude::complex_amplitude(QImage& amplitude, const class vortex& vort
  * @param	phase	         The QImage phase
  **************************************************************************************************/
 
-complex_amplitude::complex_amplitude(const gauss_beam gauss_beam, QImage& phase)
+complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, QImage& phase)
     : complex_amplitude(gauss_beam, phase, none_hole) {}
 
 /**
@@ -77,7 +77,7 @@ complex_amplitude::complex_amplitude(const gauss_beam gauss_beam, QImage& phase)
  * @param   hole            The hole
  **************************************************************************************************/
 
-complex_amplitude::complex_amplitude(const gauss_beam gauss_beam, const class vortex& vortex, const QSize& size, const hole &hole) {
+complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class vortex& vortex, const QSize& size, const hole &hole) {
 
     FUNCTION_LOG
 
@@ -112,10 +112,7 @@ complex_amplitude::complex_amplitude(const gauss_beam gauss_beam, const class vo
             }
         }
         this->pixels.push_back(row);
-        //row.clear();
     }
-    //ref_beam.clear();
-    //spp.clear();
 }
 
 /**
@@ -162,7 +159,6 @@ complex_amplitude::complex_amplitude(QImage &amplitude, QImage &phase, const hol
             }
         }
         pixels.push_back(row);
-        //row.clear();
     }
 }
 
@@ -207,7 +203,6 @@ complex_amplitude::complex_amplitude(QImage &amplitude, const class vortex& vort
             }
         }
         pixels.push_back(row);
-        //row.clear();
     }
 }
 
@@ -221,7 +216,7 @@ complex_amplitude::complex_amplitude(QImage &amplitude, const class vortex& vort
  * @param   hole             The hole
  **************************************************************************************************/
 
-complex_amplitude::complex_amplitude(const gauss_beam gauss_beam, QImage &phase, const hole &hole) {
+complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, QImage &phase, const hole &hole) {
 
     FUNCTION_LOG
 
@@ -252,7 +247,6 @@ complex_amplitude::complex_amplitude(const gauss_beam gauss_beam, QImage &phase,
             }
         }
         pixels.push_back(row);
-        //row.clear();
     }
 }
 
@@ -266,7 +260,6 @@ unsigned char* complex_amplitude::get_raw_vector(std::vector<std::vector<std::co
         max_ = max(type);
     }
     int i = 0;
-    //vector_to_fill.reserve(pixels.size()*pixels.at(0).size());
     for (std::vector<std::complex<double>>& row : pixels) {
         for (std::complex<double> pixel : row) {
             unsigned char buf_value;
@@ -285,7 +278,6 @@ unsigned char* complex_amplitude::get_raw_vector(std::vector<std::vector<std::co
                 break;
             }
             array[i++] = buf_value;
-            //vector_to_fill.push_back(buf_value);
         }
     }
     return array;
@@ -459,11 +451,9 @@ unsigned char* complex_amplitude::get_oam_density_raw_vector(std::vector<std::ve
     }
     unsigned char* array = new unsigned char[size.width()*size.height()];
     int i = 0;
-    //vector_to_fill.reserve(size.width()*size.height());
     for (std::vector<double>& source_row : oam_pixels) {
         for (double pixel : source_row) {
             array[i++] = static_cast<unsigned char>(round(pixel));
-            //vector_to_fill.push_back(static_cast<unsigned char>(round(pixel)));
         }
     }
     total_oam.append(oam_numerator / oam_denominator);

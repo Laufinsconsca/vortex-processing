@@ -71,7 +71,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QSize size{256, 256};
+    QSize image_to_save_size{256, 256};
     scheme in_amplitude_color_scheme = scheme::fire;
     scheme in_phase_color_scheme = scheme::rainbow;
     scheme out_amplitude_color_scheme = scheme::fire;
@@ -85,7 +85,11 @@ private:
     double shift;
     hole_type hole_type = hole_type::none;
     bool is_hole_type_changed;
-    hole hole_{};
+    class vortex vortex_ {
+        0,0
+    };
+    gauss_beam gauss_beam_{0,0};
+    hole hole_{0,0,0,hole_type::none};
     bool is_amplitude_from_file = false;
     bool is_phase_from_file = false;
     //complex_amplitude complex_amplitude_;
@@ -98,16 +102,16 @@ private:
     QString filters{"BMP (*.bmp);;PNG (*.png);;JPG (*.jpg);;All files (*.*)"};
     QString defaultFilter{"BMP (*.bmp)"};
     void save(out_field_type type, scheme color_scheme, QString description);
-    complex_amplitude& read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size);
+    void read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size);
     Settings* settings;
 
     void auxiliary_function_to_process_changing_color_scheme(QLabel* image_label, QLabel* scale_label, QImage image, scheme color_scheme_to_choose, scheme& prev_color_scheme);
 
-    bool spp_param_preprocessing();
+    //bool spp_param_preprocessing();
 
-    bool gauss_param_preprocessing();
+    //bool gauss_param_preprocessing();
 
-    bool holes_param_preprocessing();
+    //bool holes_param_preprocessing();
 
 };
 #endif // MAINWINDOW_H

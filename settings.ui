@@ -148,7 +148,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="2" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Цветовая схема входной фазы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -204,7 +204,7 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="4">
+   <item row="2" column="4">
     <widget class="QLabel" name="in_phase_color_scheme_label">
      <property name="minimumSize">
       <size>
@@ -255,7 +255,7 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="2">
+   <item row="4" column="2">
     <widget class="QComboBox" name="in_amplitude_color_scheme_combo_box">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -421,7 +421,7 @@
      </item>
     </widget>
    </item>
-   <item row="4" column="2">
+   <item row="2" column="2">
     <widget class="QComboBox" name="in_phase_color_scheme_combo_box">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -504,7 +504,7 @@
      </item>
     </widget>
    </item>
-   <item row="2" column="4">
+   <item row="4" column="4">
     <widget class="QLabel" name="in_amplitude_color_scheme_label">
      <property name="minimumSize">
       <size>
@@ -747,7 +747,7 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Цветовая схема входной амплитуды&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -849,7 +849,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <item>
       <property name="text">

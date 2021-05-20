@@ -10,4 +10,6 @@ public:
 signals:
     void setError(QString msg, int timeout) const;
 };
+
+
 #endif // CUSTOM_VALIDATORS_H

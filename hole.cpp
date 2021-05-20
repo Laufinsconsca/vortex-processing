@@ -4,7 +4,6 @@ hole::hole() {
 
 }
 
-
 /**
  * Constructor
  *
@@ -65,6 +64,55 @@ void hole::create_hole(QImage& image, const hole& hole, double r) {
                 image.setPixel(j, i, 0);
             }
         }
+    }
+}
+
+bool hole::holes_param_preprocessing(QLineEdit* r_d_line, QLineEdit* r_hole_line, QLineEdit* r_fi_line, hole_type hole_type, bool is_hole_type_changed, QLineEdit* sender, hole& old_hole) {
+
+    FUNCTION_LOG
+
+    if (hole_type == hole_type::none) { // если нет отверстия, то false
+        return true;
+    }
+    if (r_d_line->text().isEmpty() // если строки пустые, то false
+            || r_hole_line->text().isEmpty()
+            || r_fi_line->text().isEmpty()) {
+        return false;
+    }
+    bool r_d_line_to_string_ok, r_hole_line_to_string_ok, r_fi_line_to_string_ok;
+    double r_d = r_d_line->text().toDouble(&r_d_line_to_string_ok);
+    double r_hole = r_hole_line->text().toDouble(&r_hole_line_to_string_ok);
+    if (r_d_line_to_string_ok
+            && r_hole_line_to_string_ok) {
+        if (r_d > 1 || r_hole > 1) {
+            return false;
+        }
+        if (r_d + r_hole > 1) {
+            if (sender == r_hole_line) {
+                r_hole = 1 - r_d;
+                r_hole_line->setText(QString::number(r_hole));
+            } else if (sender == r_d_line) {
+                r_d = 1 - r_hole;
+                r_d_line->setText(QString::number(r_d));
+            }
+            return false;
+        }
+        double r_fi = r_fi_line->text().toDouble(&r_fi_line_to_string_ok);
+        if (r_fi_line_to_string_ok
+                && (is_hole_type_changed
+                    || (old_hole.r_d != r_d)
+                    || (old_hole.r_hole != r_hole)
+                    || (old_hole.fi != r_fi))) {
+            if (r_hole == 0) { // если радиус отверстия 0, то false
+                return false;
+            }
+            old_hole = hole(r_d, r_hole, r_fi, hole_type);
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
     }
 }
 

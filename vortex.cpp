@@ -64,3 +64,36 @@ std::vector<std::vector<double>>& vortex::vortex_to_vector(const vortex &vortex,
     hole::create_hole(spp, hole, 1);
     return spp;
 }
+
+bool vortex::spp_param_preprocessing(QLineEdit* pow_fi_line, QLineEdit* fi_line, class vortex& vortex) {
+    if (pow_fi_line->text().isEmpty() || fi_line->text().isEmpty()) {
+        return false;
+    }
+    bool m_line_to_string_ok, fi_line_to_string_ok;
+    double pow_fi = pow_fi_line->text().toDouble(&m_line_to_string_ok);
+    double fi = fi_line->text().toDouble(&fi_line_to_string_ok);
+    if (m_line_to_string_ok && fi_line_to_string_ok) {
+        class vortex a_vortex(pow_fi, fi);
+        vortex = a_vortex;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**********************************************************************************************//**
+ * Assignment operator.
+ *
+ * @param	obj	The object to copy.
+ *
+ * @returns	A shallow copy of this object.
+ **************************************************************************************************/
+
+class vortex& vortex::vortex::operator=(const vortex &obj) {
+    if (this == &obj) {
+        return *this;
+    }
+    f_tp = obj.f_tp;
+    pow_fi = obj.pow_fi;
+    return *this;
+}

@@ -718,11 +718,6 @@
     <addaction name="save_oam"/>
     <addaction name="close"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
-    <property name="title">
-     <string>Пакетная обработка</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
      <string>Настройки</string>
@@ -730,7 +725,6 @@
     <addaction name="settings"/>
    </widget>
    <addaction name="menu"/>
-   <addaction name="menu_2"/>
    <addaction name="menu_3"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
@@ -776,6 +770,11 @@
   <action name="settings">
    <property name="text">
     <string>Настройки</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Пакетная обработка</string>
    </property>
   </action>
  </widget>

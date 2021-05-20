@@ -42,31 +42,26 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-complex_amplitude& MainWindow::read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size) {
+void MainWindow::read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size) {
     if (!is_amplitude_from_file && !is_phase_from_file) {
-        class vortex vortex(m, fi);
-        gauss_beam gauss_beam(sigma, shift);
-        complex_amplitude_ = complex_amplitude(gauss_beam, vortex, size, hole_);
+        complex_amplitude_ = complex_amplitude(gauss_beam_, vortex_, size, hole_);
     } else if (is_amplitude_from_file && !is_phase_from_file) {
         QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        class vortex vortex(m, fi);
-        complex_amplitude_ = complex_amplitude(amplitude_image, vortex, hole_);
+        complex_amplitude_ = complex_amplitude(amplitude_image, vortex_, hole_);
     } else if (!is_amplitude_from_file && is_phase_from_file) {
-        gauss_beam gauss_beam(sigma, shift);
         QImage phase_image = phase_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        complex_amplitude_ = complex_amplitude(gauss_beam, phase_image, hole_);
+        complex_amplitude_ = complex_amplitude(gauss_beam_, phase_image, hole_);
     } else {
         QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         QImage phase_image = phase_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         complex_amplitude_ = complex_amplitude(amplitude_image, phase_image, hole_);
     }
-    return complex_amplitude_;
 }
 
 void MainWindow::on_fft_clicked() {
     QSize size(256,256);
     complex_amplitude complex_amplitude_;
-    complex_amplitude_ = read_complex_amplitude(complex_amplitude_, size);
+    read_complex_amplitude(complex_amplitude_, size);
     complex_amplitude_.FFT2D(fft_expansion);
     intensity_cur = complex_amplitude_.get_qimage(out_field_type::intensity, scheme::gray);
     out_amplitude_cur = complex_amplitude_.get_qimage(out_field_type::amplitude, scheme::gray);
@@ -88,7 +83,7 @@ void MainWindow::on_find_oam_clicked() {
 
     QSize size(256,256);
     complex_amplitude complex_amplitude_;
-    complex_amplitude_ = read_complex_amplitude(complex_amplitude_, size);
+    read_complex_amplitude(complex_amplitude_, size);
     complex_amplitude_.FFT2D(fft_expansion);
     QVector<double> total_oam;
     oam_density_cur = complex_amplitude_.get_oam_qimage(total_oam, scheme::gray);
@@ -126,130 +121,48 @@ void MainWindow::on_load_phase_triggered() {
 }
 
 void MainWindow::display_spp() {
-    if (spp_param_preprocessing() && holes_param_preprocessing()) {
-        QSize size(256, 256);
-        class vortex vortex(m, fi);
-        gauss_beam gauss_beam(0.6, 0); // gauss parameters are no matter
-        complex_amplitude a_vortex(gauss_beam, vortex, size, hole_);
-        QImage temp = a_vortex.get_qimage(out_field_type::phase, in_phase_color_scheme).copy();
-        ui->spp_image->setPixmap(QPixmap::fromImage(temp));
-        is_phase_from_file = false;
+    if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
+            && vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_))) {
+        return;
     }
+    QSize size(256, 256);
+    gauss_beam gauss_beam(0.6, 0); // gauss parameters are no matter
+    complex_amplitude a_vortex(gauss_beam, vortex_, size, hole_);
+    QImage temp = a_vortex.get_qimage(out_field_type::phase, in_phase_color_scheme).copy();
+    ui->spp_image->setPixmap(QPixmap::fromImage(temp));
+    is_phase_from_file = false;
 }
 
 void MainWindow::display_gauss_beam() {
-    if (gauss_param_preprocessing() && holes_param_preprocessing()) {
-        QSize size(256, 256);
-        class vortex vortex(1, 1); // vortex parameters are no matter
-        gauss_beam gauss_beam(sigma, shift);
-        complex_amplitude a_vortex(gauss_beam, vortex, size, hole_);
-        ui->gauss_image->setPixmap(QPixmap::fromImage(a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy()));
-        is_amplitude_from_file = false;
+    if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
+            && gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, gauss_beam_))) {
+        return;
     }
+    QSize size(256, 256);
+    class vortex vortex(1, 1); // vortex parameters are no matter
+    complex_amplitude a_vortex(gauss_beam_, vortex, size, hole_);
+    ui->gauss_image->setPixmap(QPixmap::fromImage(a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy()));
+    is_amplitude_from_file = false;
 }
 
 void MainWindow::display_both() {
-    if (holes_param_preprocessing()) {
-        if (!is_phase_from_file) {
-            spp_param_preprocessing();
-        }
-        if (!is_amplitude_from_file) {
-            gauss_param_preprocessing();
-        }
-        complex_amplitude complex_amplitude_;
-        complex_amplitude_ = read_complex_amplitude(complex_amplitude_, size);
-        if (is_phase_from_file) {
-            ui->spp_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::phase)));
-        } else {
-            ui->spp_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::phase, in_phase_color_scheme)));
-        }
-        if (is_amplitude_from_file) {
-            ui->gauss_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::amplitude)));
-        } else {
-            ui->gauss_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme)));
-        }
+    if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
+            && vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_)
+            && gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, gauss_beam_))) {
+        return;
     }
-}
-
-bool MainWindow::spp_param_preprocessing() {
-    if (ui->m_line->text().isEmpty() || ui->fi_line->text().isEmpty()) {
-        return false;
-    }
-    bool m_label_to_string_ok, fi_label_to_string_ok;
-    double m = ui->m_line->text().toDouble(&m_label_to_string_ok);
-    double fi = ui->fi_line->text().toDouble(&fi_label_to_string_ok);
-    if (m_label_to_string_ok && fi_label_to_string_ok) {
-        this->m = m;
-        this->fi = fi;
-        return true;
+    QSize size(256,256);
+    complex_amplitude complex_amplitude_;
+    read_complex_amplitude(complex_amplitude_, size);
+    if (is_phase_from_file) {
+        ui->spp_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::phase)));
     } else {
-        return false;
+        ui->spp_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::phase, in_phase_color_scheme)));
     }
-}
-
-bool MainWindow::gauss_param_preprocessing() {
-    if (ui->sigma_line->text().isEmpty() || ui->shift_line->text().isEmpty()) {
-        return false;
-    }
-    bool sigma_label_to_string_ok, shift_label_to_string_ok;
-    double sigma = ui->sigma_line->text().toDouble(&sigma_label_to_string_ok);
-    double shift = ui->shift_line->text().toDouble(&shift_label_to_string_ok);
-    if (sigma_label_to_string_ok && shift_label_to_string_ok) {
-        this->sigma = sigma;
-        this->shift = shift;
-        return true;
+    if (is_amplitude_from_file) {
+        ui->gauss_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::amplitude)));
     } else {
-        return false;
-    }
-}
-
-bool MainWindow::holes_param_preprocessing() {
-
-    FUNCTION_LOG
-
-    if (hole_type == hole_type::none) { // если нет отверстия, то false
-        return true;
-    }
-    if (ui->r_d_line->text().isEmpty() // если строки пустые, то false
-            || ui->r_hole_line->text().isEmpty()
-            || ui->r_fi_line->text().isEmpty()) {
-        return false;
-    }
-    bool r_d_label_to_string_ok, r_hole_label_to_string_ok, r_fi_label_to_string_ok;
-    double r_d = ui->r_d_line->text().toDouble(&r_d_label_to_string_ok);
-    double r_hole = ui->r_hole_line->text().toDouble(&r_hole_label_to_string_ok);
-    if (r_d_label_to_string_ok
-            && r_hole_label_to_string_ok) {
-        if (r_d > 1 || r_hole > 1) { // для перестраховки, валидатор уже есть
-            return false;
-        }
-        QLineEdit* line = qobject_cast<QLineEdit*>(sender());
-        if (r_d + r_hole > 1) {
-            if (line == ui->r_hole_line) {
-                r_hole = 1 - r_d;
-                ui->r_hole_line->setText(QString::number(r_hole));
-            } else if (line == ui->r_d_line) {
-                r_d = 1 - r_hole;
-                ui->r_d_line->setText(QString::number(r_d));
-            }
-            return false;
-        }
-        double r_fi = ui->r_fi_line->text().toDouble(&r_fi_label_to_string_ok);
-        if (r_fi_label_to_string_ok
-                && (is_hole_type_changed
-                    || (hole_.r_d != r_d)
-                    || (hole_.r_hole != r_hole)
-                    || (hole_.fi != r_fi))) {
-            if (hole_type != hole_type::none && r_hole == 0) { // если радиус отверстия 0, то false
-                return false;
-            }
-            this->hole_ = hole(r_d, r_hole, r_fi, hole_type);
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        return false;
+        ui->gauss_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme)));
     }
 }
 
@@ -276,7 +189,7 @@ void MainWindow::save(out_field_type type, scheme color_scheme, QString descript
                        &defaultFilter);
     if (!filename.isEmpty()) {
         complex_amplitude complex_amplitude_;
-        complex_amplitude_ = read_complex_amplitude(complex_amplitude_, size);
+        read_complex_amplitude(complex_amplitude_, image_to_save_size);
         QImage image;
         complex_amplitude_.FFT2D(fft_expansion);
         QStringList pieces = filename.split(".");
@@ -350,7 +263,7 @@ void MainWindow::on_settings_triggered() {
 }
 
 void MainWindow::recieve_size(QSize& size) {
-    this->size = size;
+    this->image_to_save_size = size;
 }
 
 void MainWindow::recieve_in_amplitude_color_scheme(scheme color_scheme) {
