@@ -24,13 +24,13 @@ public:
     complex_amplitude(const complex_amplitude& obj);
     complex_amplitude(const class vortex& vortex, const QSize& size);
     complex_amplitude(const gauss_beam& gauss_beam_, const class vortex& vortex_, const QSize& size);
-    complex_amplitude(QImage& amplitude, QImage& phase);
-    complex_amplitude(QImage& amplitude, const class vortex& vortex_);
     complex_amplitude(const gauss_beam& gauss_beam, QImage& phase);
     complex_amplitude(const gauss_beam& gauss_beam, const class vortex& vortex_, const QSize& size, const hole& hole);
+    complex_amplitude(const gauss_beam& gauss_beam_, QImage& phase, const hole& hole);
+    complex_amplitude(QImage& amplitude, QImage& phase);
+    complex_amplitude(QImage& amplitude, const class vortex& vortex_);
     complex_amplitude(QImage& amplitude, QImage& phase, const hole& hole);
     complex_amplitude(QImage& amplitude, const class vortex& vortex_, const hole& hole);
-    complex_amplitude(const gauss_beam& gauss_beam_, QImage& phase, const hole& hole);
     QImage get_qimage(out_field_type type, scheme color_scheme, QImage::Format format);
     QImage get_qimage(out_field_type type, scheme color_scheme);
     QImage get_qimage(out_field_type type, QImage::Format format);

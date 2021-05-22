@@ -23,6 +23,7 @@ public:
     /** The power of the azimuthal angle. */
     double pow_fi;
     vortex(std::function<double(double)> f, double pow_fi);
+    vortex();
     vortex(double tp, double pow_fi);
     double tp(double r) const;
     static std::vector<std::vector<double>>& vortex_to_vector(const vortex& vortex, std::vector<std::vector<double>>& spp, const QSize& size);

@@ -19,11 +19,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->r_fi_line, &QLineEdit::editingFinished, this, &MainWindow::display_both);
     connect(ui->sigma_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
     connect(ui->shift_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
+    connect(ui->shift_angle_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
     ui->m_line->setValidator(new QIntValidator(-100, 100, this));
     ui->fi_line->setValidator(new QDoubleValidator(0, 10, 3, this));
     ui->r_fi_line->setValidator(new QIntValidator(0, 360, this));
     ui->sigma_line->setValidator(new QDoubleValidator(0, 5, 3, this));
-    ui->shift_line->setValidator(new QDoubleValidator(-1, 1, 3, this));
+    ui->shift_line->setValidator(new QDoubleValidator(0, 1, 3, this));
+    //ui->shift_angle_line->setValidator(new QIntValidator(0, 360, this));
     ui->r_d_line->setValidator(new QDoubleValidator(0, 1, 3, this));
     ui->r_hole_line->setValidator(new QDoubleValidator(0, 1, 3, this));
     QFont font = ui->total_oam_label->font();
@@ -78,13 +80,10 @@ void MainWindow::on_fft_clicked() {
 }
 
 void MainWindow::on_find_oam_clicked() {
-
-    FUNCTION_LOG
-
     QSize size(256,256);
     complex_amplitude complex_amplitude_;
     read_complex_amplitude(complex_amplitude_, size);
-    complex_amplitude_.FFT2D(fft_expansion);
+    complex_amplitude_.IFFT2D(fft_expansion);
     QVector<double> total_oam;
     oam_density_cur = complex_amplitude_.get_oam_qimage(total_oam, scheme::gray);
     QImage oam_density_to_show = oam_density_cur.copy();
@@ -102,6 +101,8 @@ void MainWindow::on_load_amplitude_triggered() {
         QPixmap pixmap(filename);
         amplitude_from_file = pixmap.toImage();
         ui->gauss_image->setPixmap(pixmap);
+        QPixmap scale_pixmap(":/scales/" + color_scheme_to_string(scheme::gray) + "_192.bmp");
+        ui->in_amplitude_color_scheme_label->setPixmap(scale_pixmap);
         is_amplitude_from_file = true;
     }
 }
@@ -115,7 +116,8 @@ void MainWindow::on_load_phase_triggered() {
         QPixmap pixmap(filename);
         phase_from_file = pixmap.toImage();
         ui->spp_image->setPixmap(pixmap);
-        ui->spp_image->show();
+        QPixmap scale_pixmap(":/scales/" + color_scheme_to_string(scheme::gray) + "_192.bmp");
+        ui->in_phase_color_scheme_label->setPixmap(scale_pixmap);
         is_phase_from_file = true;
     }
 }
@@ -126,7 +128,7 @@ void MainWindow::display_spp() {
         return;
     }
     QSize size(256, 256);
-    gauss_beam gauss_beam(0.6, 0); // gauss parameters are no matter
+    gauss_beam gauss_beam(0.6, 0, 0); // gauss parameters are no matter
     complex_amplitude a_vortex(gauss_beam, vortex_, size, hole_);
     QImage temp = a_vortex.get_qimage(out_field_type::phase, in_phase_color_scheme).copy();
     ui->spp_image->setPixmap(QPixmap::fromImage(temp));
@@ -134,8 +136,9 @@ void MainWindow::display_spp() {
 }
 
 void MainWindow::display_gauss_beam() {
-    if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
-            && gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, gauss_beam_))) {
+    bool b1 = hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_);
+    bool b2 = gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, gauss_beam_);
+    if (!(b1 && b2)) {
         return;
     }
     QSize size(256, 256);
@@ -146,9 +149,10 @@ void MainWindow::display_gauss_beam() {
 }
 
 void MainWindow::display_both() {
-    if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
-            && vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_)
-            && gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, gauss_beam_))) {
+    bool b1 = hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_);
+    bool b2 = gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, gauss_beam_);
+    bool b3 = vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_);
+    if (!(b1 && b2 && b3)) {
         return;
     }
     QSize size(256,256);
@@ -178,7 +182,7 @@ void MainWindow::on_fft_expansion_line_editingFinished() {
     }
 }
 
-void MainWindow::save(out_field_type type, scheme color_scheme, QString description) {
+void MainWindow::save(out_field_type type, scheme color_scheme, QString description, bool out_field) {
 
     FUNCTION_LOG
 
@@ -191,7 +195,9 @@ void MainWindow::save(out_field_type type, scheme color_scheme, QString descript
         complex_amplitude complex_amplitude_;
         read_complex_amplitude(complex_amplitude_, image_to_save_size);
         QImage image;
-        complex_amplitude_.FFT2D(fft_expansion);
+        if (out_field) {
+            complex_amplitude_.FFT2D(fft_expansion);
+        }
         QStringList pieces = filename.split(".");
         QString format = pieces.value(pieces.length() - 1);
         if (type == out_field_type::oam) {
@@ -224,20 +230,28 @@ void MainWindow::save(out_field_type type, scheme color_scheme, QString descript
     }
 }
 
+void MainWindow::on_save_in_amplitude_triggered() {
+    save(out_field_type::amplitude, in_amplitude_color_scheme, "Сохранить входную амплитуду", false);
+}
+
+void MainWindow::on_save_in_phase_triggered() {
+    save(out_field_type::phase, in_phase_color_scheme, "Сохранить входную фазу", false);
+}
+
 void MainWindow::on_save_intensity_triggered() {
-    save(out_field_type::intensity, intensity_color_scheme, "Сохранить интенсивность");
+    save(out_field_type::intensity, intensity_color_scheme, "Сохранить интенсивность", true);
 }
 
-void MainWindow::on_save_amplitude_triggered() {
-    save(out_field_type::amplitude, out_amplitude_color_scheme, "Сохранить амплитуду");
+void MainWindow::on_save_out_amplitude_triggered() {
+    save(out_field_type::amplitude, out_amplitude_color_scheme, "Сохранить выходную амплитуду", true);
 }
 
-void MainWindow::on_save_phase_triggered() {
-    save(out_field_type::phase, out_phase_color_scheme, "Сохранить фазу");
+void MainWindow::on_save_out_phase_triggered() {
+    save(out_field_type::phase, out_phase_color_scheme, "Сохранить выходную фазу", true);
 }
 
 void MainWindow::on_save_oam_triggered() {
-    save(out_field_type::oam, oam_color_scheme, "Сохранить плотность распределения ОУМ");
+    save(out_field_type::oam, oam_color_scheme, "Сохранить плотность распределения ОУМ", true);
 }
 
 void MainWindow::on_comboBox_textActivated(const QString &arg1) {

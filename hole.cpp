@@ -1,8 +1,10 @@
 #include "hole.h"
 
-hole::hole() {
+/**
+ * Default constructor.
+ **************************************************************************************************/
 
-}
+hole::hole() : r_d(0), r_hole(0), fi(0), type(hole_type::none) {}
 
 /**
  * Constructor
@@ -68,9 +70,6 @@ void hole::create_hole(QImage& image, const hole& hole, double r) {
 }
 
 bool hole::holes_param_preprocessing(QLineEdit* r_d_line, QLineEdit* r_hole_line, QLineEdit* r_fi_line, hole_type hole_type, bool is_hole_type_changed, QLineEdit* sender, hole& old_hole) {
-
-    FUNCTION_LOG
-
     if (hole_type == hole_type::none) { // если нет отверстия, то false
         return true;
     }

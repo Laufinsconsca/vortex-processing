@@ -1,6 +1,12 @@
 #include "vortex.h"
 
 /**
+ * Default constructor.
+ **************************************************************************************************/
+
+vortex::vortex() : f_tp(0), pow_fi(0) {}
+
+/**
  * Constructor.
  *
  * @param	f	  	The dependency topological charge from distance from the center of an vortex

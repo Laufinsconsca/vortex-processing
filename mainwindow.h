@@ -57,11 +57,15 @@ private slots:
 
     void on_fft_expansion_line_editingFinished();
 
+    void on_save_in_amplitude_triggered();
+
+    void on_save_in_phase_triggered();
+
     void on_save_intensity_triggered();
 
-    void on_save_amplitude_triggered();
+    void on_save_out_amplitude_triggered();
 
-    void on_save_phase_triggered();
+    void on_save_out_phase_triggered();
 
     void on_save_oam_triggered();
 
@@ -85,14 +89,11 @@ private:
     double shift;
     hole_type hole_type = hole_type::none;
     bool is_hole_type_changed;
-    class vortex vortex_ {
-        0,0
-    };
-    gauss_beam gauss_beam_{0,0};
-    hole hole_{0,0,0,hole_type::none};
+    class vortex vortex_;
+    gauss_beam gauss_beam_;
+    hole hole_;
     bool is_amplitude_from_file = false;
     bool is_phase_from_file = false;
-    //complex_amplitude complex_amplitude_;
     QImage amplitude_from_file;
     QImage phase_from_file;
     QImage out_amplitude_cur;
@@ -101,17 +102,10 @@ private:
     QImage oam_density_cur;
     QString filters{"BMP (*.bmp);;PNG (*.png);;JPG (*.jpg);;All files (*.*)"};
     QString defaultFilter{"BMP (*.bmp)"};
-    void save(out_field_type type, scheme color_scheme, QString description);
+    void save(out_field_type type, scheme color_scheme, QString description, bool out_field);
     void read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size);
     Settings* settings;
 
     void auxiliary_function_to_process_changing_color_scheme(QLabel* image_label, QLabel* scale_label, QImage image, scheme color_scheme_to_choose, scheme& prev_color_scheme);
-
-    //bool spp_param_preprocessing();
-
-    //bool gauss_param_preprocessing();
-
-    //bool holes_param_preprocessing();
-
 };
 #endif // MAINWINDOW_H

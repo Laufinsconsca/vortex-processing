@@ -318,6 +318,20 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="shift_angle_label">
+          <property name="text">
+           <string>Угол:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="shift_angle_line">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
@@ -712,9 +726,11 @@
     </property>
     <addaction name="load_amplitude"/>
     <addaction name="load_phase"/>
+    <addaction name="save_in_phase"/>
+    <addaction name="save_in_amplitude"/>
     <addaction name="save_intensity"/>
-    <addaction name="save_amplitude"/>
-    <addaction name="save_phase"/>
+    <addaction name="save_out_amplitude"/>
+    <addaction name="save_out_phase"/>
     <addaction name="save_oam"/>
     <addaction name="close"/>
    </widget>
@@ -742,9 +758,9 @@
     <string>Загрузить фазу</string>
    </property>
   </action>
-  <action name="save_amplitude">
+  <action name="save_out_amplitude">
    <property name="text">
-    <string>Сохранить амплитуду</string>
+    <string>Сохранить выходную амплитуду</string>
    </property>
   </action>
   <action name="close">
@@ -752,9 +768,9 @@
     <string>Выход</string>
    </property>
   </action>
-  <action name="save_phase">
+  <action name="save_out_phase">
    <property name="text">
-    <string>Сохранить фазу</string>
+    <string>Сохранить выходную фазу</string>
    </property>
   </action>
   <action name="save_oam">
@@ -775,6 +791,16 @@
   <action name="action">
    <property name="text">
     <string>Пакетная обработка</string>
+   </property>
+  </action>
+  <action name="save_in_phase">
+   <property name="text">
+    <string>Сохранить входную фазу</string>
+   </property>
+  </action>
+  <action name="save_in_amplitude">
+   <property name="text">
+    <string>Сохранить входную амплитуду</string>
    </property>
   </action>
  </widget>

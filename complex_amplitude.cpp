@@ -19,7 +19,7 @@ complex_amplitude::complex_amplitude(const complex_amplitude& obj) : size(obj.si
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(const class vortex& vortex, const QSize& size) :
-    complex_amplitude(gauss_beam(0.6, 0), vortex, size) {}
+    complex_amplitude(gauss_beam(0.6, 0, 0), vortex, size) {}
 
 /**
  * Constructor
@@ -78,9 +78,6 @@ complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, QImage& phase
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class vortex& vortex, const QSize& size, const hole &hole) {
-
-    FUNCTION_LOG
-
     this->size = size;
     std::vector<std::vector<double>> gauss_beam_vector_to_fill, vortex_vector_to_fill;
     std::vector<std::vector<double>> ref_beam, spp;
@@ -106,12 +103,12 @@ complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class v
         for (int j = 0; j < size.width(); j++) {
             x = j * hx - 1;
             if (pow(x, 2) + pow(y, 2) < 1) {
-                row.push_back(std::polar(ref_beam.at(i).at(j), spp.at(i).at(j)));
+                row.emplace_back(std::polar(ref_beam.at(i).at(j), spp.at(i).at(j)));
             } else {
-                row.push_back(0);
+                row.emplace_back(0);
             }
         }
-        this->pixels.push_back(row);
+        this->pixels.emplace_back(row);
     }
 }
 
@@ -126,9 +123,6 @@ complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class v
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(QImage &amplitude, QImage &phase, const hole &hole) {
-
-    FUNCTION_LOG
-
     amplitude = amplitude.convertToFormat(QImage::Format_Grayscale8);
     phase = phase.convertToFormat(QImage::Format_Grayscale8);
     QSize amplitude_size = amplitude.size();
@@ -144,21 +138,22 @@ complex_amplitude::complex_amplitude(QImage &amplitude, QImage &phase, const hol
     }
     size = amplitude.size();
     pixels.reserve(size.height());
-    std::vector<std::complex<double>> row;
     double x, y;
     for (int i = 0; i < size.height(); i++) {
         x = i - size.height()/2;
+        std::vector<std::complex<double>> row;
+        row.reserve(size.width());
         const unsigned char* amplitude_line = amplitude.scanLine(i);
         const unsigned char* phase_line = phase.scanLine(i);
         for (int j = 0; j < size.width(); j++) {
             y = j - size.width()/2;
             if (sqrt(x * x + y * y) < size.width() / 2) {
-                row.push_back(std::polar(static_cast<double>(amplitude_line[j]), 2 * M_PI * static_cast<double>(phase_line[j]) / 255));
+                row.emplace_back(std::polar(static_cast<double>(amplitude_line[j]), 2 * M_PI * static_cast<double>(phase_line[j]) / 255));
             } else {
-                row.push_back(std::polar(0., 0.));
+                row.emplace_back(std::polar(0., 0.));
             }
         }
-        pixels.push_back(row);
+        pixels.emplace_back(row);
     }
 }
 
@@ -173,9 +168,6 @@ complex_amplitude::complex_amplitude(QImage &amplitude, QImage &phase, const hol
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(QImage &amplitude, const class vortex& vortex, const hole &hole) {
-
-    FUNCTION_LOG
-
     amplitude = amplitude.convertToFormat(QImage::Format_Grayscale8);
     size = amplitude.size();
     std::vector<std::vector<double>> vortex_vector_to_fill, spp;
@@ -189,20 +181,21 @@ complex_amplitude::complex_amplitude(QImage &amplitude, const class vortex& vort
     }
     spp = vortex::vortex_to_vector(vortex, vortex_vector_to_fill, size);
     pixels.reserve(size.height());
-    std::vector<std::complex<double>> row;
     double x, y;
     for (int i = 0; i < size.height(); i++) {
         x = i - size.height()/2;
+        std::vector<std::complex<double>> row;
+        row.reserve(size.width());
         unsigned char* amplitude_line = amplitude.scanLine(i);
         for (int j = 0; j < size.width(); j++) {
             y = j - size.width()/2;
             if (sqrt(x * x + y * y) < size.width() / 2) {
-                row.push_back(std::polar(static_cast<double>(amplitude_line[j]), spp.at(i).at(j)));
+                row.emplace_back(std::polar(static_cast<double>(amplitude_line[j]), spp.at(i).at(j)));
             } else {
-                row.push_back(std::polar(0., 0.));
+                row.emplace_back(std::polar(0., 0.));
             }
         }
-        pixels.push_back(row);
+        pixels.emplace_back(row);
     }
 }
 
@@ -217,9 +210,6 @@ complex_amplitude::complex_amplitude(QImage &amplitude, const class vortex& vort
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, QImage &phase, const hole &hole) {
-
-    FUNCTION_LOG
-
     phase = phase.convertToFormat(QImage::Format_Grayscale8);
     size = phase.size();
     std::vector<std::vector<double>> gauss_beam_vector_to_fill;
@@ -233,27 +223,25 @@ complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, QImage &phase
         hole::create_hole(phase, hole, 1);
     }
     pixels.reserve(size.height());
-    std::vector<std::complex<double>> row;
     double x, y;
     for (int i = 0; i < size.height(); i++) {
         x = i - size.height()/2;
+        std::vector<std::complex<double>> row;
+        row.reserve(size.width());
         unsigned char* phase_line = phase.scanLine(i);
         for (int j = 0; j < size.width(); j++) {
             y = j - size.width()/2;
             if (sqrt(x * x + y * y) < size.width() / 2) {
-                row.push_back(std::polar(ref_beam.at(i).at(j), 2 * M_PI * static_cast<double>(phase_line[j]) / 255));
+                row.emplace_back(std::polar(ref_beam.at(i).at(j), 2 * M_PI * static_cast<double>(phase_line[j]) / 255));
             } else {
-                row.push_back(std::polar(0., 0.));
+                row.emplace_back(std::polar(0., 0.));
             }
         }
-        pixels.push_back(row);
+        pixels.emplace_back(row);
     }
 }
 
 unsigned char* complex_amplitude::get_raw_vector(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type) {
-
-    FUNCTION_LOG
-
     unsigned char* array = new unsigned char[size.width()*size.height()];
     double max_ = 0;
     if (type == out_field_type::amplitude || type == out_field_type::intensity) {
@@ -288,9 +276,6 @@ void cleanup(void* data) {
 }
 
 QImage complex_amplitude::get_qimage(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type, scheme color_scheme) {
-
-    FUNCTION_LOG
-
     unsigned char* data;
     if (type == out_field_type::oam) {
         data = get_oam_density_raw_vector(pixels);
@@ -303,23 +288,14 @@ QImage complex_amplitude::get_qimage(std::vector<std::vector<std::complex<double
 }
 
 QImage complex_amplitude::get_qimage(out_field_type type, scheme color_scheme, QImage::Format format) {
-
-    FUNCTION_LOG
-
     return get_qimage(pixels, type, color_scheme).convertToFormat(format);
 }
 
 QImage complex_amplitude::get_qimage(out_field_type type, scheme color_scheme) {
-
-    FUNCTION_LOG
-
     return get_qimage(pixels, type, color_scheme);
 }
 
 QImage complex_amplitude::get_qimage(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type) {
-
-    FUNCTION_LOG
-
     unsigned char* data;
     if (type == out_field_type::oam) {
         data = get_oam_density_raw_vector(pixels);
@@ -351,9 +327,6 @@ QImage complex_amplitude::get_qimage(out_field_type type) {
  **************************************************************************************************/
 
 QImage complex_amplitude::get_oam_qimage(QVector<double> &total_oam) {
-
-    FUNCTION_LOG
-
     total_oam.clear();
     unsigned char* data = get_oam_density_raw_vector(pixels);
     total_oam = this->total_oam;
@@ -367,9 +340,6 @@ QImage complex_amplitude::get_oam_qimage(QVector<double> &total_oam, QImage::For
 }
 
 QImage complex_amplitude::get_oam_qimage(QVector<double> &total_oam, scheme color_scheme) {
-
-    FUNCTION_LOG
-
     total_oam.clear();
     unsigned char* data = get_oam_density_raw_vector(pixels);
     total_oam = this->total_oam;
@@ -385,9 +355,6 @@ QImage complex_amplitude::get_oam_qimage(QVector<double> &total_oam, scheme colo
 }
 
 unsigned char* complex_amplitude::get_oam_density_raw_vector(std::vector<std::vector<std::complex<double>>>& pixels) {
-
-    FUNCTION_LOG
-
     std::vector<std::vector<double>> oam_pixels;
     oam_pixels.reserve(size.height());
     std::vector<std::vector<std::complex<double>>> gx, gy;
@@ -399,9 +366,9 @@ unsigned char* complex_amplitude::get_oam_density_raw_vector(std::vector<std::ve
         for (int j = 0; j < size.width(); j++) {
             double width_2 = size.width() / 2.;
             double height_2 = size.height() / 2.;
-            row.push_back(imag(conj(pixels.at(i).at(j)) * (gy.at(i).at(j) * (j - width_2) - gx.at(i).at(j) * (i - height_2))));
+            row.emplace_back(imag(conj(pixels.at(i).at(j)) * (gy.at(i).at(j) * (j - width_2) - gx.at(i).at(j) * (i - height_2))));
         }
-        oam_pixels.push_back(row);
+        oam_pixels.emplace_back(row);
     }
     double oam_numerator = 0, oam_denominator = 0;
     for (int i = 0; i < size.height(); i++) {
@@ -463,9 +430,6 @@ unsigned char* complex_amplitude::get_oam_density_raw_vector(std::vector<std::ve
 }
 
 QVector<double> complex_amplitude::get_total_oam() {
-
-    FUNCTION_LOG
-
     total_oam.clear();
     unsigned char* buf_pixels = get_oam_density_raw_vector(pixels);
     delete[] buf_pixels;
@@ -486,9 +450,6 @@ void complex_amplitude::write(QString filename, const char* format, out_field_ty
  **************************************************************************************************/
 
 double complex_amplitude::max(out_field_type type) {
-
-    FUNCTION_LOG
-
     double max = -1;
     for (std::vector<std::complex<double>>& row : pixels) {
         for (std::complex<double> pixel : row) {
@@ -526,9 +487,6 @@ double complex_amplitude::max(out_field_type type) {
  **************************************************************************************************/
 
 double complex_amplitude::min(out_field_type type) {
-
-    FUNCTION_LOG
-
     double min = 1e308;
     for (std::vector<std::complex<double>>& row : pixels) {
         for (std::complex<double> pixel : row) {
@@ -626,9 +584,6 @@ std::vector<std::complex<double>>& complex_amplitude::FFT1D(int dir, int size, s
  **************************************************************************************************/
 
 void complex_amplitude::_FFT2D(int dir, int expansion) {
-
-    FUNCTION_LOG
-
     if (expansion == -1) {
         throw std::runtime_error("The FFT expansion text field must contain a power-of-2 integer value");
     }
@@ -697,6 +652,7 @@ void complex_amplitude::_FFT2D(int dir, int expansion) {
 
 void complex_amplitude::FFT2D(int expansion) {
     _FFT2D(1, expansion);
+    pixels = transformation<std::vector<std::complex<double>>>::rotate(pixels, -M_PI_2);
 }
 
 /**
@@ -707,6 +663,7 @@ void complex_amplitude::FFT2D(int expansion) {
 
 void complex_amplitude::IFFT2D(int expansion) {
     _FFT2D(-1, expansion);
+    pixels = transformation<std::vector<std::complex<double>>>::rotate(pixels, M_PI_2);
 }
 
 
@@ -722,9 +679,6 @@ void complex_amplitude::IFFT2D(int expansion) {
  **************************************************************************************************/
 
 std::vector<std::vector<std::complex<double>>>& complex_amplitude::gradient(char var, std::vector<std::vector<std::complex<double>>>& grad) {
-
-    FUNCTION_LOG
-
     grad.clear();
     switch (var) {
     case 'x': {
@@ -734,12 +688,12 @@ std::vector<std::vector<std::complex<double>>>& complex_amplitude::gradient(char
             row.reserve(size.width());
             for (int j = 0; j < size.width(); j++) {
                 if (j != size.width() - 1) {
-                    row.push_back(pixels.at(i).at(j) - pixels.at(i).at(j + 1));
+                    row.emplace_back(pixels.at(i).at(j) - pixels.at(i).at(j + 1));
                 } else {
-                    row.push_back(0);
+                    row.emplace_back(0);
                 }
             }
-            grad.push_back(row);
+            grad.emplace_back(row);
             //row.clear();
         }
         break;
@@ -751,12 +705,12 @@ std::vector<std::vector<std::complex<double>>>& complex_amplitude::gradient(char
             row.reserve(size.width());
             for (int j = 0; j < size.width(); j++) {
                 if (i != size.height() - 1) {
-                    row.push_back(pixels.at(i).at(j) - pixels.at(i + 1).at(j));
+                    row.emplace_back(pixels.at(i).at(j) - pixels.at(i + 1).at(j));
                 } else {
-                    row.push_back(0);
+                    row.emplace_back(0);
                 }
             }
-            grad.push_back(row);
+            grad.emplace_back(row);
             //row.clear();
         }
         break;
@@ -768,9 +722,6 @@ std::vector<std::vector<std::complex<double>>>& complex_amplitude::gradient(char
 }
 
 bool complex_amplitude::is_power_of_2(QSize& size) {
-
-    FUNCTION_LOG
-
     int greater_value = size.height() > size.width() ? size.height() : size.width();
     int less_value = greater_value == size.width() ? size.height() : size.width();
     double m = 0.5;
@@ -789,9 +740,6 @@ bool complex_amplitude::is_power_of_2(QSize& size) {
 };
 
 bool complex_amplitude::is_power_of_2(int value) {
-
-    FUNCTION_LOG
-
     double m = 0.5;
     bool is_value_appropriate = false;
     do {

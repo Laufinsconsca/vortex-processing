@@ -39,6 +39,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     settings.cpp \
+    transformation.cpp \
     vortex.cpp
 
 HEADERS += \
@@ -50,6 +51,7 @@ HEADERS += \
     log.h \
     mainwindow.h \
     settings.h \
+    transformation.h \
     vortex.h
 
 LIBS += -lDbgHelp
