@@ -45,6 +45,7 @@ public:
     void IFFT2D(int expansion);
     static bool is_power_of_2(int value);
     complex_amplitude& operator=(const complex_amplitude& obj);
+    static void set_color_out_of_the_circle(QImage& image, QColor color);
 private:
     std::vector<std::vector<std::complex<double>>> pixels;
     QVector<double> total_oam;

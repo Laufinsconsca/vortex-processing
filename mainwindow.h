@@ -73,6 +73,8 @@ private slots:
 
     void on_settings_triggered();
 
+    void on_save_all_out_distributions_triggered();
+
 private:
     Ui::MainWindow *ui;
     QSize image_to_save_size{256, 256};
@@ -102,10 +104,12 @@ private:
     QImage oam_density_cur;
     QString filters{"BMP (*.bmp);;PNG (*.png);;JPG (*.jpg);;All files (*.*)"};
     QString defaultFilter{"BMP (*.bmp)"};
+    void save(QString filename, QString format, out_field_type type, scheme color_scheme, bool out_field);
     void save(out_field_type type, scheme color_scheme, QString description, bool out_field);
     void read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size);
     Settings* settings;
-
+    QColor background_out_the_circle_in_field_color = QColor(240,240,240);
+    QColor background_out_the_circle_in_field_color_to_save = QColor(255,255,255);
     void auxiliary_function_to_process_changing_color_scheme(QLabel* image_label, QLabel* scale_label, QImage image, scheme color_scheme_to_choose, scheme& prev_color_scheme);
 };
 #endif // MAINWINDOW_H

@@ -157,6 +157,20 @@ complex_amplitude::complex_amplitude(QImage &amplitude, QImage &phase, const hol
     }
 }
 
+void complex_amplitude::set_color_out_of_the_circle(QImage& image, QColor color) {
+    double x, y;
+    for (int i = 0; i < image.height(); i++) {
+        x = i - image.height()/2;
+        for (int j = 0; j < image.width(); j++) {
+            y = j - image.width()/2;
+            if (sqrt(x * x + y * y) >= image.width() / 2) {
+                image.setPixelColor(i, j, color);
+            }
+        }
+    }
+}
+
+
 /**
  * Constructor
  *

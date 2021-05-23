@@ -131,6 +131,8 @@ void MainWindow::display_spp() {
     gauss_beam gauss_beam(0.6, 0, 0); // gauss parameters are no matter
     complex_amplitude a_vortex(gauss_beam, vortex_, size, hole_);
     QImage temp = a_vortex.get_qimage(out_field_type::phase, in_phase_color_scheme).copy();
+    temp = temp.convertToFormat(QImage::Format_RGB32);
+    complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
     ui->spp_image->setPixmap(QPixmap::fromImage(temp));
     is_phase_from_file = false;
 }
@@ -144,7 +146,10 @@ void MainWindow::display_gauss_beam() {
     QSize size(256, 256);
     class vortex vortex(1, 1); // vortex parameters are no matter
     complex_amplitude a_vortex(gauss_beam_, vortex, size, hole_);
-    ui->gauss_image->setPixmap(QPixmap::fromImage(a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy()));
+    QImage temp = a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy();
+    temp = temp.convertToFormat(QImage::Format_RGB32);
+    complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
+    ui->gauss_image->setPixmap(QPixmap::fromImage(temp));
     is_amplitude_from_file = false;
 }
 
@@ -161,12 +166,18 @@ void MainWindow::display_both() {
     if (is_phase_from_file) {
         ui->spp_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::phase)));
     } else {
-        ui->spp_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::phase, in_phase_color_scheme)));
+        QImage temp = complex_amplitude_.get_qimage(out_field_type::phase, in_phase_color_scheme);
+        temp = temp.convertToFormat(QImage::Format_RGB32);
+        complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
+        ui->spp_image->setPixmap(QPixmap::fromImage(temp));
     }
     if (is_amplitude_from_file) {
         ui->gauss_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::amplitude)));
     } else {
-        ui->gauss_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme)));
+        QImage temp = complex_amplitude_.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme);
+        temp = temp.convertToFormat(QImage::Format_RGB32);
+        complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
+        ui->gauss_image->setPixmap(QPixmap::fromImage(temp));
     }
 }
 
@@ -182,31 +193,23 @@ void MainWindow::on_fft_expansion_line_editingFinished() {
     }
 }
 
-void MainWindow::save(out_field_type type, scheme color_scheme, QString description, bool out_field) {
+void MainWindow::save(QString filename, QString format, out_field_type type, scheme color_scheme, bool out_field) {
 
     FUNCTION_LOG
 
-    QString filename = QFileDialog::getSaveFileName(this,
-                       description,
-                       "L:/",
-                       filters,
-                       &defaultFilter);
-    if (!filename.isEmpty()) {
+    if (!filename.isEmpty() && !format.isEmpty()) {
         complex_amplitude complex_amplitude_;
         read_complex_amplitude(complex_amplitude_, image_to_save_size);
         QImage image;
         if (out_field) {
             complex_amplitude_.FFT2D(fft_expansion);
         }
-        QStringList pieces = filename.split(".");
-        QString format = pieces.value(pieces.length() - 1);
         if (type == out_field_type::oam) {
             QVector<double> total_oam;
             image = complex_amplitude_.get_oam_qimage(total_oam, color_scheme);
-            const QString directory = filename.left(filename.lastIndexOf('/'));
-            QFile total_oam_file(directory + "oam.oam");
-            QFile min_oam(directory + "oam.min");
-            QFile max_oam(directory + "oam.max");
+            QFile total_oam_file(filename + ".oam");
+            QFile min_oam(filename + ".min");
+            QFile max_oam(filename + ".max");
             if (total_oam_file.open(QIODevice::WriteOnly)) {
                 QTextStream out(&total_oam_file);
                 out << total_oam.at(0);
@@ -225,9 +228,27 @@ void MainWindow::save(out_field_type type, scheme color_scheme, QString descript
             total_oam.clear();
         } else {
             image = complex_amplitude_.get_qimage(type, color_scheme);
+            if (!out_field) {
+                image = image.convertToFormat(QImage::Format_RGB32);
+                complex_amplitude::set_color_out_of_the_circle(image, background_out_the_circle_in_field_color_to_save);
+            }
         }
-        image.save(filename, format.toStdString().c_str());
+        image.save(filename + "." + format, format.toStdString().c_str());
     }
+}
+
+
+void MainWindow::save(out_field_type type, scheme color_scheme, QString description, bool out_field) {
+
+    FUNCTION_LOG
+
+    QString filename = QFileDialog::getSaveFileName(this,
+                       description,
+                       "C:/Users/Laufinsconsca/OneDrive - ssau.ru/Изображения/SPP",
+                       filters,
+                       &defaultFilter);
+    QStringList pieces = filename.split(".");
+    save(filename.left(filename.lastIndexOf('.')), pieces.value(pieces.length() - 1), type, color_scheme, out_field);
 }
 
 void MainWindow::on_save_in_amplitude_triggered() {
@@ -252,6 +273,21 @@ void MainWindow::on_save_out_phase_triggered() {
 
 void MainWindow::on_save_oam_triggered() {
     save(out_field_type::oam, oam_color_scheme, "Сохранить плотность распределения ОУМ", true);
+}
+
+void MainWindow::on_save_all_out_distributions_triggered() {
+    QString filename_ = QFileDialog::getSaveFileName(this,
+                        "Сохранить все распределения",
+                        "C:/Users/Laufinsconsca/OneDrive - ssau.ru/Изображения/SPP",
+                        filters,
+                        &defaultFilter);
+    const QString filename = filename_.left(filename_.lastIndexOf('.'));
+    QStringList pieces = filename_.split(".");
+    QString format = pieces.value(pieces.length() - 1);
+    save(filename + "_amplitude", format, out_field_type::amplitude, out_amplitude_color_scheme, true);
+    save(filename + "_phase", format, out_field_type::phase, out_phase_color_scheme, true);
+    save(filename + "_intensity", format, out_field_type::intensity, intensity_color_scheme, true);
+    save(filename + "_oam", format, out_field_type::oam, oam_color_scheme, true);
 }
 
 void MainWindow::on_comboBox_textActivated(const QString &arg1) {
