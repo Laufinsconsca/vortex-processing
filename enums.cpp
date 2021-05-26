@@ -30,6 +30,8 @@ QString color_scheme_to_string(scheme color) {
         return "rainbow_4";
     case scheme::rainbow_5:
         return "rainbow_5";
+    case scheme::green:
+        return "green";
     default:
         return "Unknown color map";
     }

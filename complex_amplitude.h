@@ -1,9 +1,9 @@
 #ifndef COMPLEX_AMPLITUDE_H
 #define COMPLEX_AMPLITUDE_H
 
-#include <QtMath>
 #include <vector>
 #include <complex>
+#include <QtMath>
 #include <QString>
 #include <QByteArray>
 #include <QImage>
@@ -49,7 +49,6 @@ public:
 private:
     std::vector<std::vector<std::complex<double>>> pixels;
     QVector<double> total_oam;
-    hole none_hole{0, 0, 0, hole_type::none}; // the stub
     unsigned char* get_raw_vector(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type);
     unsigned char* get_oam_density_raw_vector(std::vector<std::vector<std::complex<double>>>& pixels);
     QImage get_qimage(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type, scheme color_scheme);

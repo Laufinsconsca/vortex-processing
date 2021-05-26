@@ -43,5 +43,8 @@
         <file>scales/seashore_256.bmp</file>
         <file>scales/teals_192.bmp</file>
         <file>scales/teals_256.bmp</file>
+        <file>cmap/green.rgb</file>
+        <file>scales/green_192.bmp</file>
+        <file>scales/green_256.bmp</file>
     </qresource>
 </RCC>

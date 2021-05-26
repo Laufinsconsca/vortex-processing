@@ -79,9 +79,9 @@ private:
     Ui::MainWindow *ui;
     QSize image_to_save_size{256, 256};
     scheme in_amplitude_color_scheme = scheme::fire;
-    scheme in_phase_color_scheme = scheme::rainbow;
+    scheme in_phase_color_scheme = scheme::rainbow_5;
     scheme out_amplitude_color_scheme = scheme::fire;
-    scheme out_phase_color_scheme = scheme::rainbow;
+    scheme out_phase_color_scheme = scheme::rainbow_5;
     scheme intensity_color_scheme = scheme::fire;
     scheme oam_color_scheme = scheme::fire;
     int fft_expansion;
@@ -111,5 +111,26 @@ private:
     QColor background_out_the_circle_in_field_color = QColor(240,240,240);
     QColor background_out_the_circle_in_field_color_to_save = QColor(255,255,255);
     void auxiliary_function_to_process_changing_color_scheme(QLabel* image_label, QLabel* scale_label, QImage image, scheme color_scheme_to_choose, scheme& prev_color_scheme);
+};
+#endif // MAINWINDOW_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private:
+    Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

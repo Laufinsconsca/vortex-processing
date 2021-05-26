@@ -89,6 +89,8 @@ scheme Settings::string_to_scheme(const QString& arg) {
         return scheme::viridis;
     } else if (arg == "plasma") {
         return scheme::plasma;
+    } else if (arg == "зеленая") {
+        return scheme::green;
     } else {
         throw new std::runtime_error("Неизвестная цветовая схема");
     }
@@ -123,6 +125,8 @@ QString Settings::string_to_scheme_name(const QString& arg) {
         return "viridis";
     } else if (arg == "plasma") {
         return "plasma";
+    } else if (arg == "зеленая") {
+        return "green";
     } else {
         throw new std::runtime_error("Неизвестная цветовая схема");
     }

@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->shift_line->setValidator(new QDoubleValidator(0, 1, 3, this));
     //ui->shift_angle_line->setValidator(new QIntValidator(0, 360, this));
     ui->r_d_line->setValidator(new QDoubleValidator(0, 1, 3, this));
-    ui->r_hole_line->setValidator(new QDoubleValidator(0, 1, 3, this));
+    ui->r_hole_line->setValidator(new QDoubleValidator(0, 1, 6, this));
     QFont font = ui->total_oam_label->font();
     font.setPointSize(12);
     ui->total_oam_label->setFont(font);
@@ -83,7 +83,7 @@ void MainWindow::on_find_oam_clicked() {
     QSize size(256,256);
     complex_amplitude complex_amplitude_;
     read_complex_amplitude(complex_amplitude_, size);
-    complex_amplitude_.IFFT2D(fft_expansion);
+    complex_amplitude_.FFT2D(fft_expansion);
     QVector<double> total_oam;
     oam_density_cur = complex_amplitude_.get_oam_qimage(total_oam, scheme::gray);
     QImage oam_density_to_show = oam_density_cur.copy();
@@ -244,7 +244,7 @@ void MainWindow::save(out_field_type type, scheme color_scheme, QString descript
 
     QString filename = QFileDialog::getSaveFileName(this,
                        description,
-                       "C:/Users/Laufinsconsca/OneDrive - ssau.ru/Изображения/SPP",
+                       "C:/Users/Laufinsconsca/temp",
                        filters,
                        &defaultFilter);
     QStringList pieces = filename.split(".");
@@ -278,14 +278,16 @@ void MainWindow::on_save_oam_triggered() {
 void MainWindow::on_save_all_out_distributions_triggered() {
     QString filename_ = QFileDialog::getSaveFileName(this,
                         "Сохранить все распределения",
-                        "C:/Users/Laufinsconsca/OneDrive - ssau.ru/Изображения/SPP",
+                        "C:/Users/Laufinsconsca/temp",
                         filters,
                         &defaultFilter);
     const QString filename = filename_.left(filename_.lastIndexOf('.'));
     QStringList pieces = filename_.split(".");
     QString format = pieces.value(pieces.length() - 1);
-    save(filename + "_amplitude", format, out_field_type::amplitude, out_amplitude_color_scheme, true);
-    save(filename + "_phase", format, out_field_type::phase, out_phase_color_scheme, true);
+    save(filename + "_in_amplitude", format, out_field_type::amplitude, in_amplitude_color_scheme, false);
+    save(filename + "_in_phase", format, out_field_type::phase, in_phase_color_scheme, false);
+    save(filename + "_out_amplitude", format, out_field_type::amplitude, out_amplitude_color_scheme, true);
+    save(filename + "_out_phase", format, out_field_type::phase, out_phase_color_scheme, true);
     save(filename + "_intensity", format, out_field_type::intensity, intensity_color_scheme, true);
     save(filename + "_oam", format, out_field_type::oam, oam_color_scheme, true);
 }

@@ -10,11 +10,7 @@ gauss_beam::gauss_beam(double sigma, double shift, double shift_angle)
     : sigma(sigma), shift(shift), shift_angle(shift_angle) {}
 
 std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_beam& gauss_beam, std::vector<std::vector<double>>& ref_beam, const QSize& size) {
-
-    FUNCTION_LOG
-
     ref_beam.clear();
-    qDebug() << "Angle = " << gauss_beam.shift_angle;
     double hx, hy, x, y;
     hx = 2. / size.width();
     hy = 2. / size.height();
@@ -54,7 +50,7 @@ bool gauss_beam::gauss_param_preprocessing(QLineEdit* sigma_line, QLineEdit* shi
     }
 }
 
-/**********************************************************************************************//**
+/**
  * Assignment operator.
  *
  * @param	obj	The object to copy.

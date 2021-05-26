@@ -51,7 +51,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>6</number>
      </property>
      <item>
       <property name="text">
@@ -63,6 +63,11 @@
        <string>огненная</string>
       </property>
      </item>
+	 <item>
+      <property name="text">
+       <string>зеленая</string>
+      </property>
+	 </item>
      <item>
       <property name="text">
        <string>радужная 1</string>
@@ -219,7 +224,7 @@
       </size>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_5_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -274,6 +279,11 @@
      <item>
       <property name="text">
        <string>огненная</string>
+      </property>
+     </item>
+	 <item>
+      <property name="text">
+       <string>зеленая</string>
       </property>
      </item>
      <item>
@@ -359,6 +369,11 @@
        <string>огненная</string>
       </property>
      </item>
+	 <item>
+      <property name="text">
+       <string>зеленая</string>
+      </property>
+     </item>
      <item>
       <property name="text">
        <string>радужная 1</string>
@@ -430,7 +445,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>6</number>
      </property>
      <item>
       <property name="text">
@@ -440,6 +455,11 @@
      <item>
       <property name="text">
        <string>огненная</string>
+      </property>
+     </item>
+	 <item>
+      <property name="text">
+       <string>зеленая</string>
       </property>
      </item>
      <item>
@@ -576,6 +596,11 @@
        <string>огненная</string>
       </property>
      </item>
+	 <item>
+      <property name="text">
+       <string>зеленая</string>
+      </property>
+     </item>
      <item>
       <property name="text">
        <string>радужная 1</string>
@@ -653,7 +678,7 @@
       </size>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_5_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/fire_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -824,7 +849,7 @@
       </size>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_5_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -913,6 +938,11 @@
      <item>
       <property name="text">
        <string>огненная</string>
+      </property>
+     </item>
+	 <item>
+      <property name="text">
+       <string>зеленая</string>
       </property>
      </item>
      <item>

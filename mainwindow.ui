@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>755</width>
+    <width>760</width>
     <height>890</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>755</width>
+    <width>760</width>
     <height>890</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>755</width>
+    <width>760</width>
     <height>890</height>
    </size>
   </property>
@@ -241,7 +241,7 @@
          </size>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_192.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_5_192.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -686,7 +686,7 @@
         <item row="5" column="1">
          <widget class="QLabel" name="out_phase_color_scheme_label">
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_5_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -815,7 +815,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>755</width>
+     <width>760</width>
      <height>20</height>
     </rect>
    </property>

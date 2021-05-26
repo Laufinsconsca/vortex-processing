@@ -30,19 +30,19 @@ complex_amplitude::complex_amplitude(const class vortex& vortex, const QSize& si
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class vortex& vortex, const QSize& size)
-    : complex_amplitude(gauss_beam, vortex, size, none_hole) {}
+    : complex_amplitude(gauss_beam, vortex, size, hole{0, 0, 0, hole_type::none}) {}
 
 /**
  * Constructor
  *
- * @exceptions	runtime_error	Raised when a amplitude image size is inconsistent with phase image size
+ * @exceptions	runtime_error	Raised when the amplitude image size is inconsistent with the phase image size
  *
  * @param	amplitude	The QImage amplitude
  * @param	phase		The QImage phase
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(QImage& amplitude, QImage& phase)
-    : complex_amplitude(amplitude, phase, none_hole) {}
+    : complex_amplitude(amplitude, phase, hole{0, 0, 0, hole_type::none}) {}
 
 /**
  * Constructor
@@ -54,7 +54,7 @@ complex_amplitude::complex_amplitude(QImage& amplitude, QImage& phase)
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(QImage& amplitude, const class vortex& vortex)
-    : complex_amplitude(amplitude, vortex, none_hole) {}
+    : complex_amplitude(amplitude, vortex, hole{0, 0, 0, hole_type::none}) {}
 
 /**
  * Constructor
@@ -66,7 +66,7 @@ complex_amplitude::complex_amplitude(QImage& amplitude, const class vortex& vort
  **************************************************************************************************/
 
 complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, QImage& phase)
-    : complex_amplitude(gauss_beam, phase, none_hole) {}
+    : complex_amplitude(gauss_beam, phase, hole{0, 0, 0, hole_type::none}) {}
 
 /**
  * Constructor
@@ -331,10 +331,6 @@ QImage complex_amplitude::get_qimage(out_field_type type) {
 /**
  * Get the OAM (the total value and the density).
  *
- * @param	oam	[in,out] A reference to the QImage to contain the OAM density distribution of this complex amplitude.
- *
- * @param color_scheme The color scheme.
- *
  * @param	The array, that contain total OAM, minimum of the OAM density image and maximum of the OAM density image (for taking possibility of the OAM density pixels negativity into account).
  *
  * @returns The reference to the QImage containing the OAM density distribution of this complex amplitude.
@@ -358,9 +354,7 @@ QImage complex_amplitude::get_oam_qimage(QVector<double> &total_oam, scheme colo
     unsigned char* data = get_oam_density_raw_vector(pixels);
     total_oam = this->total_oam;
     QImage oam_density = QImage(data, size.width(), size.height(), size.width(), QImage::Format_Indexed8);
-    qDebug() << "oam density was formed";
     oam_density.setColorTable(color_map(color_scheme));
-    qDebug() << "oam density: set color table";
     return oam_density;
 }
 
@@ -458,9 +452,9 @@ void complex_amplitude::write(QString filename, const char* format, out_field_ty
 /**
  * Find the max of the whole complex amplitude normalized to given field type.
  *
- * @param	type	[out] The out field type.
+ * @param	type	The out field type.
  *
- * @returns	The maximum.
+ * @returns         The maximum.
  **************************************************************************************************/
 
 double complex_amplitude::max(out_field_type type) {
@@ -495,9 +489,9 @@ double complex_amplitude::max(out_field_type type) {
 /**
  * Find the min of the whole complex amplitude normalized to given field type.
  *
- * @param	type	[out] The out field type.
+ * @param	type	The out field type.
  *
- * @returns	The minimum.
+ * @returns         The minimum.
  **************************************************************************************************/
 
 double complex_amplitude::min(out_field_type type) {
@@ -536,9 +530,9 @@ double complex_amplitude::min(out_field_type type) {
  *
  * @param	dir				   	The direction of the transform (1 for direct, -1 for inverse).
  * @param	size			   	The size.
- * @param	transforming_vector	[in,out] A vector to tranform.
+ * @param	vector_to_transform	A vector to tranform.
  *
- * @returns	A reference to the transformed vector.
+ * @returns                     A reference to the transformed vector.
  **************************************************************************************************/
 
 std::vector<std::complex<double>>& complex_amplitude::FFT1D(int dir, int size, std::vector<std::complex<double>>& vector_to_transform) {
@@ -593,8 +587,8 @@ std::vector<std::complex<double>>& complex_amplitude::FFT1D(int dir, int size, s
  *
  * @exceptions	runtime_error	Raised when the size of this object is not power of 2.
  *
- * @param	dir		 	The direction of the transform (1 for direct, -1 for inverse).
- * @param	expansion	The expansion (should be power of 2).
+ * @param	dir                 The direction of the transform (1 for direct, -1 for inverse).
+ * @param	expansion           The expansion (should be power of 2).
  **************************************************************************************************/
 
 void complex_amplitude::_FFT2D(int dir, int expansion) {
@@ -666,7 +660,6 @@ void complex_amplitude::_FFT2D(int dir, int expansion) {
 
 void complex_amplitude::FFT2D(int expansion) {
     _FFT2D(1, expansion);
-    pixels = transformation<std::vector<std::complex<double>>>::rotate(pixels, -M_PI_2);
 }
 
 /**
@@ -677,19 +670,18 @@ void complex_amplitude::FFT2D(int expansion) {
 
 void complex_amplitude::IFFT2D(int expansion) {
     _FFT2D(-1, expansion);
-    pixels = transformation<std::vector<std::complex<double>>>::rotate(pixels, M_PI_2);
 }
 
 
 /**
  * Get gradient of this for given variable.
  *
- * @param	var 	The variable symbol that indicates direction ('x' or 'y').
- * @param  grad    A reference to a vector to contain the gradient in the chosen direction.
+ * @param	var                 The variable symbol that indicates direction ('x' or 'y').
+ * @param  grad                 A reference to a vector to contain the gradient in the chosen direction.
  *
  * @exception	runtime_error	Raised when variable is undefined (isn't 'x' or 'y').
  *
- * @returns	A reference to a vector that contains the gradient in the chosen direction.
+ * @returns                     A reference to a vector that contains the gradient in the chosen direction.
  **************************************************************************************************/
 
 std::vector<std::vector<std::complex<double>>>& complex_amplitude::gradient(char var, std::vector<std::vector<std::complex<double>>>& grad) {
@@ -708,7 +700,6 @@ std::vector<std::vector<std::complex<double>>>& complex_amplitude::gradient(char
                 }
             }
             grad.emplace_back(row);
-            //row.clear();
         }
         break;
     }
@@ -725,12 +716,11 @@ std::vector<std::vector<std::complex<double>>>& complex_amplitude::gradient(char
                 }
             }
             grad.emplace_back(row);
-            //row.clear();
         }
         break;
     }
     default:
-        throw std::runtime_error("Undefined variable to get the gradient");
+        throw std::runtime_error("Undefined variable to get the gradient of");
     }
     return grad;
 }
@@ -772,6 +762,5 @@ complex_amplitude& complex_amplitude::operator=(const complex_amplitude& obj) {
     pixels = obj.pixels;
     size = obj.size;
     total_oam = obj.total_oam;
-    none_hole = obj.none_hole;
     return *this;
 }

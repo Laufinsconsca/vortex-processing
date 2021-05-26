@@ -22,7 +22,8 @@ enum scheme {
     rainbow_2,
     rainbow_3,
     rainbow_4,
-    rainbow_5
+    rainbow_5,
+    green
 };
 
 enum direction {
