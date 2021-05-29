@@ -51,83 +51,8 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>3</number>
      </property>
-     <item>
-      <property name="text">
-       <string>серая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>огненная</string>
-      </property>
-     </item>
-	 <item>
-      <property name="text">
-       <string>зеленая</string>
-      </property>
-	 </item>
-     <item>
-      <property name="text">
-       <string>радужная 1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 2</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 3</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 4</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 5</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dusk</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dawn</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>seashore</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>kryptonite</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>teals</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>plasma</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>viridis</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item row="10" column="3">
@@ -224,7 +149,7 @@
       </size>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_5_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/phase_scales/rainbow_1_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -269,83 +194,8 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
-     <item>
-      <property name="text">
-       <string>серая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>огненная</string>
-      </property>
-     </item>
-	 <item>
-      <property name="text">
-       <string>зеленая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 2</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 3</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 4</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 5</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dusk</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dawn</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>seashore</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>kryptonite</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>teals</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>plasma</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>viridis</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item row="10" column="2">
@@ -359,81 +209,6 @@
      <property name="currentIndex">
       <number>1</number>
      </property>
-     <item>
-      <property name="text">
-       <string>серая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>огненная</string>
-      </property>
-     </item>
-	 <item>
-      <property name="text">
-       <string>зеленая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 2</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 3</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 4</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 5</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dusk</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dawn</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>seashore</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>kryptonite</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>teals</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>plasma</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>viridis</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item row="2" column="2">
@@ -445,83 +220,8 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>1</number>
      </property>
-     <item>
-      <property name="text">
-       <string>серая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>огненная</string>
-      </property>
-     </item>
-	 <item>
-      <property name="text">
-       <string>зеленая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 2</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 3</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 4</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 5</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dusk</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dawn</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>seashore</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>kryptonite</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>teals</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>plasma</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>viridis</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item row="4" column="4">
@@ -586,81 +286,6 @@
      <property name="currentIndex">
       <number>1</number>
      </property>
-     <item>
-      <property name="text">
-       <string>серая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>огненная</string>
-      </property>
-     </item>
-	 <item>
-      <property name="text">
-       <string>зеленая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 2</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 3</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 4</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 5</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dusk</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dawn</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>seashore</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>kryptonite</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>teals</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>plasma</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>viridis</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item row="12" column="4">
@@ -678,14 +303,14 @@
       </size>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/fire_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/oam_scales/rainbow_1_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Размер сохраняемого изображения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Размер изображения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -849,7 +474,7 @@
       </size>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/rainbow_5_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/phase_scales/rainbow_1_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -928,83 +553,8 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
-     <item>
-      <property name="text">
-       <string>серая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>огненная</string>
-      </property>
-     </item>
-	 <item>
-      <property name="text">
-       <string>зеленая</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 2</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 3</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 4</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>радужная 5</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dusk</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>dawn</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>seashore</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>kryptonite</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>teals</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>plasma</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>viridis</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item row="3" column="2">

@@ -2,8 +2,6 @@
     <qresource prefix="/">
         <file>scales/fire_192.bmp</file>
         <file>scales/fire_256.bmp</file>
-        <file>scales/rainbow_192.bmp</file>
-        <file>scales/rainbow_256.bmp</file>
         <file>cmap/dusk.rgb</file>
         <file>cmap/fire.rgb</file>
         <file>cmap/gray.rgb</file>
@@ -17,7 +15,7 @@
         <file>cmap/rainbow_4.rgb</file>
         <file>cmap/rainbow_5.rgb</file>
         <file>cmap/dawn.rgb</file>
-        <file>cmap/rainbow.rgb</file>
+        <file>cmap/green.rgb</file>
         <file>scales/gray_192.bmp</file>
         <file>scales/gray_256.bmp</file>
         <file>scales/plasma_192.bmp</file>
@@ -38,13 +36,59 @@
         <file>scales/kryptonite_256.bmp</file>
         <file>scales/rainbow_5_192.bmp</file>
         <file>scales/rainbow_5_256.bmp</file>
-        <file>scales/scale.bmp</file>
         <file>scales/seashore_192.bmp</file>
         <file>scales/seashore_256.bmp</file>
         <file>scales/teals_192.bmp</file>
         <file>scales/teals_256.bmp</file>
-        <file>cmap/green.rgb</file>
         <file>scales/green_192.bmp</file>
         <file>scales/green_256.bmp</file>
+        <file>scales/oam_scales/dawn_256.bmp</file>
+        <file>scales/oam_scales/dusk_256.bmp</file>
+        <file>scales/oam_scales/fire_256.bmp</file>
+        <file>scales/oam_scales/gray_256.bmp</file>
+        <file>scales/oam_scales/green_256.bmp</file>
+        <file>scales/oam_scales/kryptonite_256.bmp</file>
+        <file>scales/oam_scales/plasma_256.bmp</file>
+        <file>scales/oam_scales/rainbow_2_256.bmp</file>
+        <file>scales/oam_scales/rainbow_3_256.bmp</file>
+        <file>scales/oam_scales/rainbow_4_256.bmp</file>
+        <file>scales/oam_scales/rainbow_5_256.bmp</file>
+        <file>scales/oam_scales/seashore_256.bmp</file>
+        <file>scales/oam_scales/teals_256.bmp</file>
+        <file>scales/oam_scales/viridis_256.bmp</file>
+        <file>scales/phase_scales/dawn_192.bmp</file>
+        <file>scales/phase_scales/dawn_256.bmp</file>
+        <file>scales/phase_scales/dusk_192.bmp</file>
+        <file>scales/phase_scales/dusk_256.bmp</file>
+        <file>scales/phase_scales/fire_192.bmp</file>
+        <file>scales/phase_scales/fire_256.bmp</file>
+        <file>scales/phase_scales/gray_192.bmp</file>
+        <file>scales/phase_scales/gray_256.bmp</file>
+        <file>scales/phase_scales/green_192.bmp</file>
+        <file>scales/phase_scales/green_256.bmp</file>
+        <file>scales/phase_scales/kryptonite_192.bmp</file>
+        <file>scales/phase_scales/kryptonite_256.bmp</file>
+        <file>scales/phase_scales/plasma_192.bmp</file>
+        <file>scales/phase_scales/plasma_256.bmp</file>
+        <file>scales/phase_scales/rainbow_2_192.bmp</file>
+        <file>scales/phase_scales/rainbow_2_256.bmp</file>
+        <file>scales/phase_scales/rainbow_3_192.bmp</file>
+        <file>scales/phase_scales/rainbow_3_256.bmp</file>
+        <file>scales/phase_scales/rainbow_4_192.bmp</file>
+        <file>scales/phase_scales/rainbow_4_256.bmp</file>
+        <file>scales/phase_scales/rainbow_5_192.bmp</file>
+        <file>scales/phase_scales/rainbow_5_256.bmp</file>
+        <file>scales/phase_scales/seashore_192.bmp</file>
+        <file>scales/phase_scales/seashore_256.bmp</file>
+        <file>scales/phase_scales/teals_192.bmp</file>
+        <file>scales/phase_scales/teals_256.bmp</file>
+        <file>scales/phase_scales/viridis_192.bmp</file>
+        <file>scales/phase_scales/viridis_256.bmp</file>
+        <file>scales/rainbow_1_192.bmp</file>
+        <file>scales/rainbow_1_256.bmp</file>
+        <file>scales/phase_scales/rainbow_1_192.bmp</file>
+        <file>scales/phase_scales/rainbow_1_256.bmp</file>
+        <file>scales/oam_scales/rainbow_1_256.bmp</file>
+        <file>cmap/rainbow_1.rgb</file>
     </qresource>
 </RCC>

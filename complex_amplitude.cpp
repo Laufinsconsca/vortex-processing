@@ -115,7 +115,7 @@ complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class v
 /**
  * Constructor
  *
- * @exceptions	runtime_error	Raised when a amplitude image size is inconsistent with phase image size
+ * @exceptions	runtime_error	Raised when the amplitude image size is inconsistent with phase image size
  *
  * @param	amplitude	The QImage amplitude
  * @param	phase		The QImage phase
@@ -331,7 +331,7 @@ QImage complex_amplitude::get_qimage(out_field_type type) {
 /**
  * Get the OAM (the total value and the density).
  *
- * @param	The array, that contain total OAM, minimum of the OAM density image and maximum of the OAM density image (for taking possibility of the OAM density pixels negativity into account).
+ * @param	total_oam   The array, that contain total OAM, minimum of the OAM density image and maximum of the OAM density image (for taking possibility of the OAM density pixels negativity into account).
  *
  * @returns The reference to the QImage containing the OAM density distribution of this complex amplitude.
  **************************************************************************************************/
@@ -385,55 +385,46 @@ unsigned char* complex_amplitude::get_oam_density_raw_vector(std::vector<std::ve
             oam_denominator += std::norm(pixels.at(i).at(j));
         }
     }
-    double max = 0;
+    double min_oam_density = 1e308;
+    double max_oam_density = -1e308;
     for (std::vector<double>& row : oam_pixels) {
         for (double pixel : row) {
-            if (pixel > max) {
-                max = pixel;
+            if (min_oam_density > pixel) {
+                min_oam_density = pixel;
             }
         }
     }
-    for (int i = 0; i < size.height(); i++) {
-        for (int j = 0; j < size.width(); j++) {
-            oam_pixels.at(i).at(j) *= 255/max;
-        }
-    }
-    double min = 1e308;
-    max = 0;
-    for (std::vector<double>& source_row : oam_pixels) {
-        for (double pixel : source_row) {
-            if (min > pixel) {
-                min = pixel;
+    for (std::vector<double>& row : oam_pixels) {
+        for (double pixel : row) {
+            if (pixel > max_oam_density) {
+                max_oam_density = pixel;
             }
         }
     }
-    for (int i = 0; i <  static_cast<int>(oam_pixels.size()); i++) {
+    double min_by_abs_oam_density = abs(min_oam_density) < abs(max_oam_density) ? min_oam_density : max_oam_density;
+    double max_by_abs_oam_density = min_by_abs_oam_density == min_oam_density ? max_oam_density : min_oam_density;
+    for (int i = 0; i <  static_cast<int>(oam_pixels.size()); i++) {;
         for (int j = 0; j < static_cast<int>(oam_pixels.at(0).size()); j++) {
-            oam_pixels.at(i).at(j) -= min;
+            oam_pixels.at(i).at(j) -= min_by_abs_oam_density;
         }
     }
-    for (std::vector<double>& source_row : oam_pixels) {
-        for (double pixel : source_row) {
-            if (max < pixel) {
-                max = pixel;
-            }
-        }
-    }
+    double max = max_by_abs_oam_density - min_by_abs_oam_density;
     for (int i = 0; i < static_cast<int>(oam_pixels.size()); i++) {
         for (int j = 0; j < static_cast<int>(oam_pixels.at(0).size()); j++) {
-            oam_pixels.at(i).at(j) *= 255 / max;
+            oam_pixels.at(i).at(j) *= 255 / max * (min_by_abs_oam_density == min_oam_density ? 1 : -1);
+            oam_pixels.at(i).at(j) += min_by_abs_oam_density == min_oam_density ? 0 : 255;
         }
     }
     unsigned char* array = new unsigned char[size.width()*size.height()];
     int i = 0;
-    for (std::vector<double>& source_row : oam_pixels) {
-        for (double pixel : source_row) {
+    for (std::vector<double>& row : oam_pixels) {
+        for (double pixel : row) {
             array[i++] = static_cast<unsigned char>(round(pixel));
         }
     }
     total_oam.append(oam_numerator / oam_denominator);
-    total_oam.append(min);;
-    total_oam.append(max + min);
+    total_oam.append(min_oam_density - min_by_abs_oam_density);
+    total_oam.append(max_oam_density - min_by_abs_oam_density);
     return array;
 }
 
@@ -532,7 +523,7 @@ double complex_amplitude::min(out_field_type type) {
  * @param	size			   	The size.
  * @param	vector_to_transform	A vector to tranform.
  *
- * @returns                     A reference to the transformed vector.
+ * @returns                     The reference to the transformed vector.
  **************************************************************************************************/
 
 std::vector<std::complex<double>>& complex_amplitude::FFT1D(int dir, int size, std::vector<std::complex<double>>& vector_to_transform) {
@@ -681,7 +672,7 @@ void complex_amplitude::IFFT2D(int expansion) {
  *
  * @exception	runtime_error	Raised when variable is undefined (isn't 'x' or 'y').
  *
- * @returns                     A reference to a vector that contains the gradient in the chosen direction.
+ * @returns                     The reference to a vector that contains the gradient in the chosen direction.
  **************************************************************************************************/
 
 std::vector<std::vector<std::complex<double>>>& complex_amplitude::gradient(char var, std::vector<std::vector<std::complex<double>>>& grad) {

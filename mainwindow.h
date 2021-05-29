@@ -77,13 +77,13 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QSize image_to_save_size{256, 256};
+    QSize size{256, 256};
     scheme in_amplitude_color_scheme = scheme::fire;
-    scheme in_phase_color_scheme = scheme::rainbow_5;
+    scheme in_phase_color_scheme = scheme::rainbow_1;
     scheme out_amplitude_color_scheme = scheme::fire;
-    scheme out_phase_color_scheme = scheme::rainbow_5;
+    scheme out_phase_color_scheme = scheme::rainbow_1;
     scheme intensity_color_scheme = scheme::fire;
-    scheme oam_color_scheme = scheme::fire;
+    scheme oam_color_scheme = scheme::rainbow_1;
     int fft_expansion;
     double m;
     double fi;

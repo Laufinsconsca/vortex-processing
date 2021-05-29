@@ -11,19 +11,19 @@
 enum scheme {
     gray,
     fire,
-    viridis,
-    plasma,
-    dawn,
-    dusk,
-    seashore,
-    kryptonite,
-    teals,
-    rainbow,
+    green,
+    rainbow_1,
     rainbow_2,
     rainbow_3,
     rainbow_4,
     rainbow_5,
-    green
+    dawn,
+    dusk,
+    plasma,
+    viridis,
+    seashore,
+    kryptonite,
+    teals,
 };
 
 enum direction {

@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->r_fi_line->setValidator(new QIntValidator(0, 360, this));
     ui->sigma_line->setValidator(new QDoubleValidator(0, 5, 3, this));
     ui->shift_line->setValidator(new QDoubleValidator(0, 1, 3, this));
-    //ui->shift_angle_line->setValidator(new QIntValidator(0, 360, this));
+    ui->shift_angle_line->setValidator(new QIntValidator(0, 360, this));
     ui->r_d_line->setValidator(new QDoubleValidator(0, 1, 3, this));
     ui->r_hole_line->setValidator(new QDoubleValidator(0, 1, 6, this));
     QFont font = ui->total_oam_label->font();
@@ -61,7 +61,7 @@ void MainWindow::read_complex_amplitude(complex_amplitude& complex_amplitude_, Q
 }
 
 void MainWindow::on_fft_clicked() {
-    QSize size(256,256);
+    //QSize size(256,256);
     complex_amplitude complex_amplitude_;
     read_complex_amplitude(complex_amplitude_, size);
     complex_amplitude_.FFT2D(fft_expansion);
@@ -80,7 +80,7 @@ void MainWindow::on_fft_clicked() {
 }
 
 void MainWindow::on_find_oam_clicked() {
-    QSize size(256,256);
+    //QSize size(256,256);
     complex_amplitude complex_amplitude_;
     read_complex_amplitude(complex_amplitude_, size);
     complex_amplitude_.FFT2D(fft_expansion);
@@ -89,7 +89,9 @@ void MainWindow::on_find_oam_clicked() {
     QImage oam_density_to_show = oam_density_cur.copy();
     oam_density_to_show.setColorTable(color_map(oam_color_scheme));
     ui->oam_density_image->setPixmap(QPixmap::fromImage(oam_density_to_show));
-    ui->total_oam_label->setText("Общее значение ОУМ: " + QString(std::to_string(total_oam.at(0)).c_str()));
+    ui->total_oam_label->setText("Значение общего ОУМ: " + QString(std::to_string(total_oam.at(0)).c_str()));
+    ui->min_oam->setText(total_oam.at(1) == 0 ? QString("0") : QString::number(total_oam.at(1), 'e'));
+    ui->max_oam->setText(total_oam.at(2) == 0 ? QString("0") : QString::number(total_oam.at(2), 'e'));
 }
 
 void MainWindow::on_load_amplitude_triggered() {
@@ -127,7 +129,7 @@ void MainWindow::display_spp() {
             && vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_))) {
         return;
     }
-    QSize size(256, 256);
+    //QSize size(256, 256);
     gauss_beam gauss_beam(0.6, 0, 0); // gauss parameters are no matter
     complex_amplitude a_vortex(gauss_beam, vortex_, size, hole_);
     QImage temp = a_vortex.get_qimage(out_field_type::phase, in_phase_color_scheme).copy();
@@ -143,7 +145,7 @@ void MainWindow::display_gauss_beam() {
     if (!(b1 && b2)) {
         return;
     }
-    QSize size(256, 256);
+    //QSize size(256, 256);
     class vortex vortex(1, 1); // vortex parameters are no matter
     complex_amplitude a_vortex(gauss_beam_, vortex, size, hole_);
     QImage temp = a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy();
@@ -160,7 +162,7 @@ void MainWindow::display_both() {
     if (!(b1 && b2 && b3)) {
         return;
     }
-    QSize size(256,256);
+    //QSize size(256,256);
     complex_amplitude complex_amplitude_;
     read_complex_amplitude(complex_amplitude_, size);
     if (is_phase_from_file) {
@@ -199,7 +201,7 @@ void MainWindow::save(QString filename, QString format, out_field_type type, sch
 
     if (!filename.isEmpty() && !format.isEmpty()) {
         complex_amplitude complex_amplitude_;
-        read_complex_amplitude(complex_amplitude_, image_to_save_size);
+        read_complex_amplitude(complex_amplitude_, size);
         QImage image;
         if (out_field) {
             complex_amplitude_.FFT2D(fft_expansion);
@@ -207,9 +209,9 @@ void MainWindow::save(QString filename, QString format, out_field_type type, sch
         if (type == out_field_type::oam) {
             QVector<double> total_oam;
             image = complex_amplitude_.get_oam_qimage(total_oam, color_scheme);
-            QFile total_oam_file(filename + ".oam");
-            QFile min_oam(filename + ".min");
-            QFile max_oam(filename + ".max");
+            QFile total_oam_file(filename + "_oam.txt");
+            QFile min_oam(filename + "_min.txt");
+            QFile max_oam(filename + "_max.txt");
             if (total_oam_file.open(QIODevice::WriteOnly)) {
                 QTextStream out(&total_oam_file);
                 out << total_oam.at(0);
@@ -315,7 +317,7 @@ void MainWindow::on_settings_triggered() {
 }
 
 void MainWindow::recieve_size(QSize& size) {
-    this->image_to_save_size = size;
+    this->size = size;
 }
 
 void MainWindow::recieve_in_amplitude_color_scheme(scheme color_scheme) {
@@ -350,7 +352,9 @@ void MainWindow::auxiliary_function_to_process_changing_color_scheme(QLabel* ima
             QImage image_copy = image.copy();
             image_copy.setColorTable(color_map(color_scheme_to_choose));
             image_label->setPixmap(QPixmap::fromImage(image_copy));
-            QPixmap pixmap(":/scales/" + color_scheme_to_string(color_scheme_to_choose) + "_256.bmp");
+            QString oam_prefix = scale_label == ui->oam_color_scheme_label ? "oam_scales/" : "";
+            QString phase_prefix = (scale_label == ui->in_phase_color_scheme_label || scale_label == ui->out_phase_color_scheme_label) ? "phase_scales/" : "";
+            QPixmap pixmap(":/scales/" + oam_prefix + phase_prefix + color_scheme_to_string(color_scheme_to_choose) + "_256.bmp");
             scale_label->setPixmap(pixmap);
         }
     }

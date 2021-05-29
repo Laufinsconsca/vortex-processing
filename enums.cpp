@@ -20,8 +20,8 @@ QString color_scheme_to_string(scheme color) {
         return "viridis";
     case scheme::plasma:
         return "plasma";
-    case scheme::rainbow:
-        return "rainbow";
+    case scheme::rainbow_1:
+        return "rainbow_1";
     case scheme::rainbow_2:
         return "rainbow_2";
     case scheme::rainbow_3:
