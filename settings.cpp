@@ -31,6 +31,15 @@ Settings::~Settings() {
     delete ui;
 }
 
+void Settings::initialize_color_maps() {
+    on_in_amplitude_color_scheme_combo_box_textActivated("огненная");
+    on_in_phase_color_scheme_combo_box_textActivated("радужная");
+    on_out_amplitude_color_scheme_combo_box_textActivated("огненная");
+    on_out_phase_color_scheme_combo_box_textActivated("радужная");
+    on_intensity_color_scheme_combo_box_textActivated("огненная");
+    on_oam_color_scheme_combo_box_textActivated("радужная");
+}
+
 void Settings::on_size_combo_box_textActivated(const QString &arg1) {
     QSize size;
     QStringList list = arg1.split("×");
@@ -39,32 +48,33 @@ void Settings::on_size_combo_box_textActivated(const QString &arg1) {
     emit send_size(size);
 }
 
-void Settings::choose_scheme_template(const QString &arg1, QLabel* label, void (Settings::*signal)(scheme)) {
+void Settings::choose_scheme_template(const QString &arg1, QLabel* label, QComboBox* combo_box, void (Settings::*signal)(scheme)) {
     QPixmap pixmap(":/scales/" + Ui::scheme_name_map[arg1].second + "_256.bmp");
     label->setPixmap(pixmap);
+    combo_box->setCurrentIndex(Ui::scheme_name_map[arg1].first);
     emit (this->*signal)((scheme)Ui::scheme_name_map[arg1].first);
 }
 
 void Settings::on_in_amplitude_color_scheme_combo_box_textActivated(const QString &arg1) {
-    choose_scheme_template(arg1, ui->in_amplitude_color_scheme_label, &Settings::send_in_amplitude_color_scheme);
+    choose_scheme_template(arg1, ui->in_amplitude_color_scheme_label, ui->in_amplitude_color_scheme_combo_box, &Settings::send_in_amplitude_color_scheme);
 }
 
 void Settings::on_in_phase_color_scheme_combo_box_textActivated(const QString &arg1) {
-    choose_scheme_template(arg1, ui->in_phase_color_scheme_label, &Settings::send_in_phase_color_scheme);
+    choose_scheme_template(arg1, ui->in_phase_color_scheme_label, ui->in_phase_color_scheme_combo_box, &Settings::send_in_phase_color_scheme);
 }
 
 void Settings::on_out_amplitude_color_scheme_combo_box_textActivated(const QString &arg1) {
-    choose_scheme_template(arg1, ui->out_amplitude_color_scheme_label, &Settings::send_out_amplitude_color_scheme);
+    choose_scheme_template(arg1, ui->out_amplitude_color_scheme_label, ui->out_amplitude_color_scheme_combo_box, &Settings::send_out_amplitude_color_scheme);
 }
 
 void Settings::on_out_phase_color_scheme_combo_box_textActivated(const QString &arg1) {
-    choose_scheme_template(arg1, ui->out_phase_color_scheme_label, &Settings::send_out_phase_color_scheme);
+    choose_scheme_template(arg1, ui->out_phase_color_scheme_label, ui->out_phase_color_scheme_combo_box, &Settings::send_out_phase_color_scheme);
 }
 
 void Settings::on_intensity_color_scheme_combo_box_textActivated(const QString &arg1) {
-    choose_scheme_template(arg1, ui->intensity_color_scheme_label, &Settings::send_intensity_color_scheme);
+    choose_scheme_template(arg1, ui->intensity_color_scheme_label, ui->intensity_color_scheme_combo_box, &Settings::send_intensity_color_scheme);
 }
 
 void Settings::on_oam_color_scheme_combo_box_textActivated(const QString &arg1) {
-    choose_scheme_template(arg1, ui->oam_color_scheme_label, &Settings::send_oam_color_scheme);
+    choose_scheme_template(arg1, ui->oam_color_scheme_label, ui->oam_color_scheme_combo_box, &Settings::send_oam_color_scheme);
 }

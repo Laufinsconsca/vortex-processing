@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QComboBox>
 #include <QStringListModel>
 #include "enums.h"
 
@@ -33,6 +34,7 @@ class Settings : public QWidget {
 public:
     explicit Settings(QWidget *parent = nullptr);
     ~Settings();
+    void initialize_color_maps();
 
 signals:
     void send_size(QSize& size);
@@ -45,7 +47,7 @@ signals:
 private:
     Ui::Settings *ui;
     static bool compare(QString arg1, QString arg2);
-    void choose_scheme_template(const QString &arg1, QLabel* label, void (Settings::*signal)(scheme));
+    void choose_scheme_template(const QString &arg1, QLabel* label, QComboBox* combo_box, void (Settings::*signal)(scheme));
 
 private slots:
     void on_size_combo_box_textActivated(const QString &arg1);

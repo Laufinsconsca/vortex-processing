@@ -459,7 +459,7 @@
         </item>
         <item>
          <property name="text">
-          <string>фазоамплитудное</string>
+          <string>амплитудно-фазовое</string>
          </property>
         </item>
        </widget>
@@ -866,7 +866,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>БПФ преобразование</string>
+           <string>Выполнить БПФ</string>
           </property>
          </widget>
         </item>
@@ -889,8 +889,8 @@
     <property name="title">
      <string>Файл</string>
     </property>
-    <addaction name="load_amplitude"/>
     <addaction name="load_phase"/>
+    <addaction name="load_amplitude"/>
     <addaction name="save_in_phase"/>
     <addaction name="save_in_amplitude"/>
     <addaction name="save_intensity"/>
@@ -916,12 +916,12 @@
   </widget>
   <action name="load_amplitude">
    <property name="text">
-    <string>Загрузить амплитуду</string>
+    <string>Загрузить входную амплитуду</string>
    </property>
   </action>
   <action name="load_phase">
    <property name="text">
-    <string>Загрузить фазу</string>
+    <string>Загрузить входную фазу</string>
    </property>
   </action>
   <action name="save_out_amplitude">

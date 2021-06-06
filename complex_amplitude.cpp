@@ -297,7 +297,7 @@ QImage complex_amplitude::get_qimage(std::vector<std::vector<std::complex<double
         data = get_raw_vector(pixels, type);
     }
     QImage image = QImage(data, size.width(), size.height(), size.width(), QImage::Format_Indexed8, cleanup);
-    image.setColorTable(color_map(color_scheme));
+    image.setColorTable(load_color_map(color_scheme));
     return image;
 }
 
@@ -354,7 +354,7 @@ QImage complex_amplitude::get_oam_qimage(QVector<double> &total_oam, scheme colo
     unsigned char* data = get_oam_density_raw_vector(pixels);
     total_oam = this->total_oam;
     QImage oam_density = QImage(data, size.width(), size.height(), size.width(), QImage::Format_Indexed8);
-    oam_density.setColorTable(color_map(color_scheme));
+    oam_density.setColorTable(load_color_map(color_scheme));
     return oam_density;
 }
 

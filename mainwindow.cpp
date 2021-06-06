@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(settings, &Settings::send_out_phase_color_scheme, this, &MainWindow::recieve_out_phase_color_scheme);
     connect(settings, &Settings::send_intensity_color_scheme, this, &MainWindow::recieve_intensity_color_scheme);
     connect(settings, &Settings::send_oam_color_scheme, this, &MainWindow::recieve_oam_color_scheme);
+    settings->initialize_color_maps();
     connect(ui->m_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp);
     connect(ui->fi_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp);
     connect(ui->r_d_line, &QLineEdit::editingFinished, this, &MainWindow::display_both);
@@ -71,9 +72,9 @@ void MainWindow::on_fft_clicked() {
     QImage out_amplitude_to_show = out_amplitude_cur.copy();
     QImage out_phase_to_show = out_phase_cur.copy();
     QImage intensity_to_show = intensity_cur.copy();
-    out_amplitude_to_show.setColorTable(color_map(out_amplitude_color_scheme));
-    out_phase_to_show.setColorTable(color_map(out_phase_color_scheme));
-    intensity_to_show.setColorTable(color_map(intensity_color_scheme));
+    out_amplitude_to_show.setColorTable(load_color_map(out_amplitude_color_scheme));
+    out_phase_to_show.setColorTable(load_color_map(out_phase_color_scheme));
+    intensity_to_show.setColorTable(load_color_map(intensity_color_scheme));
     ui->amplitude_image->setPixmap(QPixmap::fromImage(out_amplitude_to_show));
     ui->phase_image->setPixmap(QPixmap::fromImage(out_phase_to_show));
     ui->intensity_image->setPixmap(QPixmap::fromImage(intensity_to_show));
@@ -87,7 +88,7 @@ void MainWindow::on_find_oam_clicked() {
     QVector<double> total_oam;
     oam_density_cur = complex_amplitude_.get_oam_qimage(total_oam, scheme::gray);
     QImage oam_density_to_show = oam_density_cur.copy();
-    oam_density_to_show.setColorTable(color_map(oam_color_scheme));
+    oam_density_to_show.setColorTable(load_color_map(oam_color_scheme));
     ui->oam_density_image->setPixmap(QPixmap::fromImage(oam_density_to_show));
     ui->total_oam_label->setText("Значение общего ОУМ: " + QString(std::to_string(total_oam.at(0)).c_str()));
     ui->min_oam->setText(total_oam.at(1) == 0 ? QString("0") : QString::number(total_oam.at(1), 'e'));
@@ -246,7 +247,7 @@ void MainWindow::save(out_field_type type, scheme color_scheme, QString descript
 
     QString filename = QFileDialog::getSaveFileName(this,
                        description,
-                       "C:/Users/Laufinsconsca/temp",
+                       "C:\\Users\\walle\\OneDrive - Samara University\\Изображения\\к рисункам 2.14-2.17 расширение БПФ = 8\\n = 1.5",
                        filters,
                        &defaultFilter);
     QStringList pieces = filename.split(".");
@@ -300,7 +301,7 @@ void MainWindow::on_comboBox_textActivated(const QString &arg1) {
         hole_type = hole_type::phase_hole;
     } else if (arg1 == "амплитудное") {
         hole_type = hole_type::amplitude_hole;
-    } else if (arg1 == "фазоамплитудное") {
+    } else if (arg1 == "амплитудно-фазовое") {
         hole_type = hole_type::amplitude_phase_hole;
     } else {
         hole_type = hole_type::none;
@@ -350,7 +351,7 @@ void MainWindow::auxiliary_function_to_process_changing_color_scheme(QLabel* ima
         QString string = color_scheme_to_string(color_scheme_to_choose);
         if (string != "Unknown color map") {
             QImage image_copy = image.copy();
-            image_copy.setColorTable(color_map(color_scheme_to_choose));
+            image_copy.setColorTable(load_color_map(color_scheme_to_choose));
             image_label->setPixmap(QPixmap::fromImage(image_copy));
             QString oam_prefix = scale_label == ui->oam_color_scheme_label ? "oam_scales/" : "";
             QString phase_prefix = (scale_label == ui->in_phase_color_scheme_label || scale_label == ui->out_phase_color_scheme_label) ? "phase_scales/" : "";

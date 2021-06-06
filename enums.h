@@ -53,6 +53,6 @@ enum hole_type {
 };
 
 QString color_scheme_to_string(scheme color);
-QVector<QRgb> color_map(scheme color_scheme);
+QVector<QRgb> load_color_map(scheme color_scheme);
 
 #endif // ENUMS_H

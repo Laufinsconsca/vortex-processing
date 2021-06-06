@@ -54,7 +54,7 @@ private:
     QImage get_qimage(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type, scheme color_scheme);
     QImage get_qimage(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type);
     void _FFT2D(int dir, int expansion);
-    std::vector<std::complex<double>>& FFT1D(int dir, int m, std::vector<std::complex<double>>& transforming_vector);
+    std::vector<std::complex<double>>& FFT1D(int dir, int m, std::vector<std::complex<double>>& vector_to_transform);
     static bool is_power_of_2(QSize& size);
     double max(out_field_type type);
     double min(out_field_type type);
