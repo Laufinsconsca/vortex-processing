@@ -5,6 +5,7 @@
 #include <functional>
 #include "hole.h"
 #include <complex>
+#include "transformation.h"
 
 /************************************************************************************************//**
  * Declares the vortex class (this class contains a structure describing the vortex phase

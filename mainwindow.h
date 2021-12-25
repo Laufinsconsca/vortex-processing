@@ -26,19 +26,21 @@ public:
 
 public slots:
 
-    void recieve_size(QSize& size);
+    void receive_size(QSize& size);
 
-    void recieve_in_amplitude_color_scheme(scheme color_scheme);
+    void receive_in_amplitude_color_scheme(scheme color_scheme);
 
-    void recieve_in_phase_color_scheme(scheme color_scheme);
+    void receive_in_phase_color_scheme(scheme color_scheme);
 
     void recieve_out_amplitude_color_scheme(scheme color_scheme);
 
-    void recieve_out_phase_color_scheme(scheme color_scheme);
+    void receive_out_phase_color_scheme(scheme color_scheme);
 
-    void recieve_intensity_color_scheme(scheme color_scheme);
+    void receive_intensity_color_scheme(scheme color_scheme);
 
-    void recieve_oam_color_scheme(scheme color_scheme);
+    void receive_oam_color_scheme(scheme color_scheme);
+
+    void receive_spiral_color_scheme(scheme color_scheme);
 
 private slots:
     void on_fft_clicked();
@@ -53,7 +55,9 @@ private slots:
 
     void display_gauss_beam();
 
-    void display_both();
+    void display_spiral();
+
+    void display_spp_and_gauss_beam();
 
     void on_fft_expansion_line_editingFinished();
 
@@ -69,16 +73,16 @@ private slots:
 
     void on_save_oam_triggered();
 
-    void on_comboBox_textActivated(const QString &arg1);
-
     void on_settings_triggered();
 
     void on_save_all_out_distributions_triggered();
 
+    void on_comboBox_activated(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     QSize size{256, 256};
-    scheme in_amplitude_color_scheme, in_phase_color_scheme, out_amplitude_color_scheme, out_phase_color_scheme, intensity_color_scheme, oam_color_scheme;
+    scheme in_amplitude_color_scheme, in_phase_color_scheme, out_amplitude_color_scheme, out_phase_color_scheme, intensity_color_scheme, oam_color_scheme, spiral_color_scheme;
     int fft_expansion;
     double m;
     double fi;
@@ -86,22 +90,26 @@ private:
     double shift;
     hole_type hole_type = hole_type::none;
     bool is_hole_type_changed;
+    phase_type phase_type;
     class vortex vortex_;
     gauss_beam gauss_beam_;
+    class spiral spiral_;
     hole hole_;
     bool is_amplitude_from_file = false;
     bool is_phase_from_file = false;
+    bool is_init = true;
     QImage amplitude_from_file;
     QImage phase_from_file;
     QImage out_amplitude_cur;
     QImage out_phase_cur;
     QImage intensity_cur;
     QImage oam_density_cur;
+    QImage spiral_cur;
     QString filters{"BMP (*.bmp);;PNG (*.png);;JPG (*.jpg);;All files (*.*)"};
     QString defaultFilter{"BMP (*.bmp)"};
     void save(QString filename, QString format, out_field_type type, scheme color_scheme, bool out_field);
     void save(out_field_type type, scheme color_scheme, QString description, bool out_field);
-    void read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size);
+    void read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size, enum phase_type phase_type);
     Settings* settings;
     QColor background_out_the_circle_in_field_color = QColor(240,240,240);
     QColor background_out_the_circle_in_field_color_to_save = QColor(255,255,255);

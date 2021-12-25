@@ -115,6 +115,56 @@ complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class v
 /**
  * Constructor
  *
+ * @param	gauss_beam  	The gauss beam
+ * @param	spiral          The spiral
+ * @param	size            The size
+ **************************************************************************************************/
+
+complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class spiral& spiral, const QSize& size)
+    : complex_amplitude(gauss_beam, spiral, size, hole{0, 0, 0, hole_type::none}) {}
+
+/**
+ * Constructor
+ *
+ * @param	gauss_beam  	The gauss beam
+ * @param	spiral          The spiral
+ * @param	size            The size
+ **************************************************************************************************/
+
+complex_amplitude::complex_amplitude(const gauss_beam& gauss_beam, const class spiral& spiral, const QSize& size, const hole& hole) {
+    this->size = size;
+    std::vector<std::vector<double>> gauss_beam_vector_to_fill, spiral_vector_to_fill;
+    std::vector<std::vector<double>> ref_beam, spiral_vector;
+    if (hole.type == hole_type::amplitude_hole || hole.type == hole_type::amplitude_phase_hole) {
+        ref_beam = gauss_beam::gauss_beam_to_vector(gauss_beam, gauss_beam_vector_to_fill, size, hole);
+    } else {
+        ref_beam = gauss_beam::gauss_beam_to_vector(gauss_beam, gauss_beam_vector_to_fill, size);
+    }
+    spiral_vector = spiral::spiral_to_vector(spiral, spiral_vector_to_fill, size);
+    double hx, hy;
+    this->pixels.reserve(size.height());
+    hx = 2. / size.width();
+    hy = 2. / size.height();
+    double x, y;
+    for (int i = 0; i < size.height(); i++) {
+        y = i * hy - 1;
+        std::vector<std::complex<double>> row;
+        row.reserve(size.width());
+        for (int j = 0; j < size.width(); j++) {
+            x = j * hx - 1;
+            if (pow(x, 2) + pow(y, 2) < 1) {
+                row.emplace_back(std::polar(ref_beam.at(i).at(j), spiral_vector.at(i).at(j)));
+            } else {
+                row.emplace_back(0);
+            }
+        }
+        this->pixels.emplace_back(row);
+    }
+}
+
+/**
+ * Constructor
+ *
  * @exceptions	runtime_error	Raised when the amplitude image size is inconsistent with phase image size
  *
  * @param	amplitude	The QImage amplitude
@@ -193,7 +243,7 @@ complex_amplitude::complex_amplitude(QImage &amplitude, const class vortex& vort
     } else {
         spp = vortex::vortex_to_vector(vortex, vortex_vector_to_fill, size);
     }
-    spp = vortex::vortex_to_vector(vortex, vortex_vector_to_fill, size);
+    //spp = vortex::vortex_to_vector(vortex, vortex_vector_to_fill, size);
     pixels.reserve(size.height());
     double x, y;
     for (int i = 0; i < size.height(); i++) {
@@ -205,6 +255,55 @@ complex_amplitude::complex_amplitude(QImage &amplitude, const class vortex& vort
             y = j - size.width()/2;
             if (sqrt(x * x + y * y) < size.width() / 2) {
                 row.emplace_back(std::polar(static_cast<double>(amplitude_line[j]), spp.at(i).at(j)));
+            } else {
+                row.emplace_back(std::polar(0., 0.));
+            }
+        }
+        pixels.emplace_back(row);
+    }
+}
+
+/**
+ * Constructor
+ *
+ * @exceptions	runtime_error	Raised when the amplitude image size is inconsistent with the phase image size
+ *
+ * @param	amplitude	The QImage amplitude
+ * @param	spiral      The spiral
+ **************************************************************************************************/
+
+complex_amplitude::complex_amplitude(QImage& amplitude, const class spiral& spiral)
+    : complex_amplitude(amplitude, spiral, hole{0, 0, 0, hole_type::none}) {}
+
+/**
+ * Constructor
+ *
+ * @exceptions	runtime_error	Raised when the amplitude image size is inconsistent with the phase image size
+ *
+ * @param	amplitude	The QImage amplitude
+ * @param	spiral      The spiral
+ * @param   hole        The hole
+ **************************************************************************************************/
+
+complex_amplitude::complex_amplitude(QImage &amplitude, const class spiral& spiral, const hole &hole) {
+    amplitude = amplitude.convertToFormat(QImage::Format_Grayscale8);
+    size = amplitude.size();
+    std::vector<std::vector<double>> spiral_vector_to_fill, spiral_vector;
+    if (hole.type == hole_type::amplitude_hole || hole.type == hole_type::amplitude_phase_hole) {
+        hole::create_hole(amplitude, hole, 1);
+    }
+    spiral_vector = spiral::spiral_to_vector(spiral, spiral_vector_to_fill, size);
+    pixels.reserve(size.height());
+    double x, y;
+    for (int i = 0; i < size.height(); i++) {
+        x = i - size.height()/2;
+        std::vector<std::complex<double>> row;
+        row.reserve(size.width());
+        unsigned char* amplitude_line = amplitude.scanLine(i);
+        for (int j = 0; j < size.width(); j++) {
+            y = j - size.width()/2;
+            if (sqrt(x * x + y * y) < size.width() / 2) {
+                row.emplace_back(std::polar(static_cast<double>(amplitude_line[j]), spiral_vector.at(i).at(j)));
             } else {
                 row.emplace_back(std::polar(0., 0.));
             }
@@ -435,7 +534,6 @@ QVector<double> complex_amplitude::get_total_oam() {
     return total_oam;
 }
 
-
 void complex_amplitude::write(QString filename, const char* format, out_field_type type, scheme color_scheme) {
     get_qimage(type, color_scheme).save(filename, format, 100);
 }
@@ -663,6 +761,41 @@ void complex_amplitude::IFFT2D(int expansion) {
     _FFT2D(-1, expansion);
 }
 
+/**********************************************************************************************//**
+ * Fresnel tranform.
+ *
+ @parameters	rx		  	The rx.
+ @parameters	ry		  	The ry.
+ * @parameters	distance  	The distance.
+ * @parameters	wavelength	The wavelength.
+ * @parameters	expansion 	The expansion (should be power of 2, allows you to increase the output Fresnel transform image).
+ * @parameters	direction 	The direction of the transform (1 for direct, -1 for inverse).
+ **************************************************************************************************/
+
+void complex_amplitude::_FresnelT(double r, double z, double wavelength, int expansion, int direction) {
+    int i, j;
+    double hx, hy, t;
+    std::complex<double> ex;
+    hx = r / (size.width() - 1);
+    hy = r / (size.height() - 1);
+    t = M_PI / (z * wavelength) * direction;
+    for (i = 0; i < size.height(); i++) {
+        ex = std::polar(1., pow(-r / 2 + i * hy, 2) * t);
+        for (j = 0; j < size.width(); j++) {
+            pixels.at(i).at(j) *= ex * std::polar(1., pow(-r / 2 + j * hx, 2) * t);
+        }
+    }
+    _FFT2D(direction, expansion);
+}
+
+void complex_amplitude::FresnelT(double r, double z, double wavelength, int expansion) {
+    _FresnelT(r/1000, z/1000, wavelength/1e9, expansion, 1);
+}
+
+
+void complex_amplitude::IFresnelT(double r, double z, double wavelength, int expansion) {
+    _FresnelT(r/1000, z/1000, wavelength/10e9, expansion, -1);
+}
 
 /**
  * Get gradient of this for given variable.
@@ -721,17 +854,17 @@ bool complex_amplitude::is_power_of_2(QSize& size) {
     int less_value = greater_value == size.width() ? size.height() : size.width();
     double m = 0.5;
     bool is_less_value_appropriate = false;
-    bool ais_greater_value_appropriate = false;
+    bool is_greater_value_appropriate = false;
     do {
         m *= 2;
         if (greater_value == m) {
-            ais_greater_value_appropriate = true;
+            is_greater_value_appropriate = true;
         }
         if (less_value == m) {
             is_less_value_appropriate = true;
         }
     } while (2 * m <= greater_value);
-    return is_less_value_appropriate && ais_greater_value_appropriate;
+    return is_less_value_appropriate && is_greater_value_appropriate;
 };
 
 bool complex_amplitude::is_power_of_2(int value) {

@@ -13,6 +13,7 @@
 #include <QVector>
 #include "enums.h"
 #include "vortex.h"
+#include "spiral.h"
 #include "hole.h"
 #include "gauss_beam.h"
 #include "log.h"
@@ -27,10 +28,14 @@ public:
     complex_amplitude(const gauss_beam& gauss_beam, QImage& phase);
     complex_amplitude(const gauss_beam& gauss_beam, const class vortex& vortex_, const QSize& size, const hole& hole);
     complex_amplitude(const gauss_beam& gauss_beam_, QImage& phase, const hole& hole);
+    complex_amplitude(const gauss_beam& gauss_beam_, const class spiral& spiral, const QSize& size);
+    complex_amplitude(const gauss_beam& gauss_beam_, const class spiral& spiral, const QSize& size, const hole& hole);
     complex_amplitude(QImage& amplitude, QImage& phase);
     complex_amplitude(QImage& amplitude, const class vortex& vortex_);
     complex_amplitude(QImage& amplitude, QImage& phase, const hole& hole);
     complex_amplitude(QImage& amplitude, const class vortex& vortex_, const hole& hole);
+    complex_amplitude(QImage &amplitude, const class spiral& spiral);
+    complex_amplitude(QImage &amplitude, const class spiral& spiral, const hole& hole);
     QImage get_qimage(out_field_type type, scheme color_scheme, QImage::Format format);
     QImage get_qimage(out_field_type type, scheme color_scheme);
     QImage get_qimage(out_field_type type, QImage::Format format);
@@ -43,6 +48,8 @@ public:
     void write(QString filename, const char* format, out_field_type type, scheme color_scheme);
     void FFT2D(int expansion);
     void IFFT2D(int expansion);
+    void FresnelT(double r, double z, double wavelength, int expansion);
+    void IFresnelT(double r, double z, double wavelength, int expansion);
     static bool is_power_of_2(int value);
     complex_amplitude& operator=(const complex_amplitude& obj);
     static void set_color_out_of_the_circle(QImage& image, QColor color);
@@ -54,6 +61,7 @@ private:
     QImage get_qimage(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type, scheme color_scheme);
     QImage get_qimage(std::vector<std::vector<std::complex<double>>>& pixels, out_field_type type);
     void _FFT2D(int dir, int expansion);
+    void _FresnelT(double r, double z, double wavelength, int expansion, int direction);
     std::vector<std::complex<double>>& FFT1D(int dir, int m, std::vector<std::complex<double>>& vector_to_transform);
     static bool is_power_of_2(QSize& size);
     double max(out_field_type type);

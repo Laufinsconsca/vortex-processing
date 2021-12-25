@@ -1,6 +1,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <QVector>
 #include <QString>
 #include <QRgb>
 #include <QColor>
@@ -50,6 +51,11 @@ enum hole_type {
     phase_hole,
     amplitude_phase_hole,
     none
+};
+
+enum phase_type {
+    spp,
+    spiral
 };
 
 QString color_scheme_to_string(scheme color);

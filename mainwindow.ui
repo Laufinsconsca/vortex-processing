@@ -6,20 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>760</width>
-    <height>890</height>
+    <width>984</width>
+    <height>917</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>760</width>
+    <width>984</width>
     <height>890</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>760</width>
-    <height>890</height>
+    <width>984</width>
+    <height>917</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -38,7 +44,7 @@
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,5">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,5,0,0">
     <property name="spacing">
      <number>18</number>
     </property>
@@ -53,6 +59,9 @@
       <property name="spacing">
        <number>6</number>
       </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
+      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -63,6 +72,12 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>192</width>
+          <height>0</height>
+         </size>
         </property>
         <property name="maximumSize">
          <size>
@@ -81,7 +96,7 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
         </property>
         <property name="rowWrapPolicy">
          <enum>QFormLayout::WrapLongRows</enum>
@@ -97,6 +112,12 @@
         </property>
         <item row="0" column="0">
          <widget class="QLabel" name="m_label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>Топологический заряд:</string>
           </property>
@@ -112,7 +133,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>64</width>
             <height>16777215</height>
            </size>
           </property>
@@ -136,7 +157,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="fi_label">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -171,7 +192,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>64</width>
             <height>16777215</height>
            </size>
           </property>
@@ -234,6 +255,12 @@
       </item>
       <item>
        <widget class="QLabel" name="in_phase_color_scheme_label">
+        <property name="minimumSize">
+         <size>
+          <width>192</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>192</width>
@@ -253,6 +280,12 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>192</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>192</width>
@@ -270,7 +303,7 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
         </property>
         <property name="rowWrapPolicy">
          <enum>QFormLayout::DontWrapRows</enum>
@@ -290,7 +323,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;σ :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;σ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -309,7 +342,7 @@
            <string/>
           </property>
           <property name="text">
-           <string>0.6</string>
+           <string>1</string>
           </property>
          </widget>
         </item>
@@ -395,6 +428,12 @@
       </item>
       <item>
        <widget class="QLabel" name="in_amplitude_color_scheme_label">
+        <property name="minimumSize">
+         <size>
+          <width>192</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>192</width>
@@ -408,6 +447,12 @@
       </item>
       <item>
        <widget class="QLabel" name="hole_label">
+        <property name="minimumSize">
+         <size>
+          <width>192</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>192</width>
@@ -466,6 +511,12 @@
       </item>
       <item>
        <layout class="QFormLayout" name="formLayout_3">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+        </property>
         <item row="0" column="0">
          <widget class="QLabel" name="r_d_label">
           <property name="text">
@@ -483,7 +534,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>70</width>
             <height>16777215</height>
            </size>
           </property>
@@ -512,7 +563,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>70</width>
             <height>16777215</height>
            </size>
           </property>
@@ -541,7 +592,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>70</width>
             <height>16777215</height>
            </size>
           </property>
@@ -559,8 +610,140 @@
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
+      </property>
       <item>
        <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinimumSize</enum>
+        </property>
+        <item row="7" column="1">
+         <spacer name="verticalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>15</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLabel" name="total_oam_label">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Значение общего ОУМ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="out_phase_color_scheme_label">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/phase_scales/rainbow_1_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <layout class="QFormLayout" name="formLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="fft_expansion_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Расширение БПФ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="fft_expansion_line">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>16</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="oam_density_image">
+          <property name="minimumSize">
+           <size>
+            <width>256</width>
+            <height>256</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>256</width>
+            <height>256</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLabel" name="phase_image">
+          <property name="minimumSize">
+           <size>
+            <width>256</width>
+            <height>256</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>256</width>
+            <height>256</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="amplitude_image">
+          <property name="minimumSize">
+           <size>
+            <width>256</width>
+            <height>256</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>256</width>
+            <height>256</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="2">
          <widget class="QLabel" name="out_amplitude_color_scheme_label">
           <property name="text">
@@ -568,8 +751,28 @@
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
-         <spacer name="verticalSpacer_5">
+        <item row="6" column="2">
+         <widget class="QPushButton" name="find_oam">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Найти ОУМ</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="oam_density_label">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Плотность распределения ОУМ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <spacer name="verticalSpacer_4">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -588,20 +791,6 @@
          <widget class="QLabel" name="intensity_color_scheme_label">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/fire_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QLabel" name="oam_density_label">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Плотность распределения ОУМ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="amplitude_label">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Амплитуда:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -679,68 +868,6 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="amplitude_image">
-          <property name="minimumSize">
-           <size>
-            <width>256</width>
-            <height>256</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>256</width>
-            <height>256</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLabel" name="out_phase_color_scheme_label">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/phase_scales/rainbow_1_256.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="intensity_label">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Интенсивность:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::AutoText</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>15</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="8" column="2">
-         <widget class="QLabel" name="total_oam_label">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Значение общего ОУМ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="1">
          <widget class="QLabel" name="phase_label">
           <property name="text">
@@ -748,68 +875,10 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="1">
-         <layout class="QFormLayout" name="formLayout_5">
-          <item row="0" column="0">
-           <widget class="QLabel" name="fft_expansion_label">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Расширение БПФ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="fft_expansion_line">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>16</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="6" column="2">
-         <widget class="QPushButton" name="find_oam">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+        <item row="0" column="2">
+         <widget class="QLabel" name="amplitude_label">
           <property name="text">
-           <string>Найти ОУМ</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="phase_image">
-          <property name="minimumSize">
-           <size>
-            <width>256</width>
-            <height>256</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>256</width>
-            <height>256</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Амплитуда:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -835,25 +904,13 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QLabel" name="oam_density_image">
-          <property name="minimumSize">
-           <size>
-            <width>256</width>
-            <height>256</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>256</width>
-            <height>256</height>
-           </size>
-          </property>
+        <item row="0" column="1">
+         <widget class="QLabel" name="intensity_label">
           <property name="text">
-           <string/>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Интенсивность:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
-          <property name="scaledContents">
-           <bool>true</bool>
+          <property name="textFormat">
+           <enum>Qt::AutoText</enum>
           </property>
          </widget>
         </item>
@@ -874,6 +931,273 @@
       </item>
      </layout>
     </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="maximumSize">
+         <size>
+          <width>192</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Параметры преобра-ния:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_6">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;z, мм:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="z_line">
+          <property name="maximumSize">
+           <size>
+            <width>115</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>10</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;λ, нм:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="wavelength_line">
+          <property name="maximumSize">
+           <size>
+            <width>115</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>635</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Физический размер, мм:</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="ph_size_line">
+          <property name="maximumSize">
+           <size>
+            <width>115</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="maximumSize">
+         <size>
+          <width>192</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Параметры спирали:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_8">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+        </property>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="spiral_z_line">
+          <property name="text">
+           <string>10</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;z, мм:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;l:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="l_line">
+          <property name="text">
+           <string>3</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="spiral_wavelength_line">
+          <property name="text">
+           <string>635</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;λ, нм:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="r0_line">
+          <property name="text">
+           <string>0.8</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;r0:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="spiral_thickness_line">
+          <property name="text">
+           <string>0.01</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;d:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="spiral_image">
+        <property name="minimumSize">
+         <size>
+          <width>192</width>
+          <height>192</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>192</width>
+          <height>192</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>192</width>
+          <height>7</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="spiral_color_scheme_label">
+        <property name="minimumSize">
+         <size>
+          <width>192</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>192</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/scales/phase_scales/rainbow_1_192.bmp&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="phase_type_label">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -881,7 +1205,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>760</width>
+     <width>984</width>
      <height>21</height>
     </rect>
    </property>
@@ -951,7 +1275,7 @@
   </action>
   <action name="settings">
    <property name="text">
-    <string>Настройки</string>
+    <string>Настройки цветовых схем</string>
    </property>
   </action>
   <action name="action">

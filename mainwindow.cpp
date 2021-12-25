@@ -5,67 +5,109 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     settings = new Settings();
     settings->setWindowModality(Qt::ApplicationModal);
-    connect(settings, &Settings::send_size, this, &MainWindow::recieve_size);
-    connect(settings, &Settings::send_in_amplitude_color_scheme, this, &MainWindow::recieve_in_amplitude_color_scheme);
-    connect(settings, &Settings::send_in_phase_color_scheme, this, &MainWindow::recieve_in_phase_color_scheme);
+    connect(settings, &Settings::send_size, this, &MainWindow::receive_size);
+    connect(settings, &Settings::send_in_amplitude_color_scheme, this, &MainWindow::receive_in_amplitude_color_scheme);
+    connect(settings, &Settings::send_in_phase_color_scheme, this, &MainWindow::receive_in_phase_color_scheme);
     connect(settings, &Settings::send_out_amplitude_color_scheme, this, &MainWindow::recieve_out_amplitude_color_scheme);
-    connect(settings, &Settings::send_out_phase_color_scheme, this, &MainWindow::recieve_out_phase_color_scheme);
-    connect(settings, &Settings::send_intensity_color_scheme, this, &MainWindow::recieve_intensity_color_scheme);
-    connect(settings, &Settings::send_oam_color_scheme, this, &MainWindow::recieve_oam_color_scheme);
+    connect(settings, &Settings::send_out_phase_color_scheme, this, &MainWindow::receive_out_phase_color_scheme);
+    connect(settings, &Settings::send_intensity_color_scheme, this, &MainWindow::receive_intensity_color_scheme);
+    connect(settings, &Settings::send_oam_color_scheme, this, &MainWindow::receive_oam_color_scheme);
+    connect(settings, &Settings::send_spiral_color_scheme, this, &MainWindow::receive_spiral_color_scheme);
     settings->initialize_color_maps();
     connect(ui->m_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp);
     connect(ui->fi_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp);
-    connect(ui->r_d_line, &QLineEdit::editingFinished, this, &MainWindow::display_both);
-    connect(ui->r_hole_line, &QLineEdit::editingFinished, this, &MainWindow::display_both);
-    connect(ui->r_fi_line, &QLineEdit::editingFinished, this, &MainWindow::display_both);
+    connect(ui->r_d_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp_and_gauss_beam);
+    connect(ui->r_hole_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp_and_gauss_beam);
+    connect(ui->r_fi_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp_and_gauss_beam);
     connect(ui->sigma_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
     connect(ui->shift_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
     connect(ui->shift_angle_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
-    ui->m_line->setValidator(new QIntValidator(-100, 100, this));
-    ui->fi_line->setValidator(new QDoubleValidator(0, 10, 3, this));
+    connect(ui->spiral_z_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
+    connect(ui->spiral_wavelength_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
+    connect(ui->l_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
+    connect(ui->r0_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
+    connect(ui->spiral_thickness_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
+    ui->m_line->setValidator(new QDoubleValidator(-100, 100, 3, this));
+    ui->fi_line->setValidator(new QDoubleValidator(-10, 10, 3, this));
     ui->r_fi_line->setValidator(new QIntValidator(0, 360, this));
     ui->sigma_line->setValidator(new QDoubleValidator(0, 5, 3, this));
     ui->shift_line->setValidator(new QDoubleValidator(0, 1, 3, this));
     ui->shift_angle_line->setValidator(new QIntValidator(0, 360, this));
     ui->r_d_line->setValidator(new QDoubleValidator(0, 1, 3, this));
     ui->r_hole_line->setValidator(new QDoubleValidator(0, 1, 6, this));
-    QFont font = ui->total_oam_label->font();
-    font.setPointSize(12);
-    ui->total_oam_label->setFont(font);
+    ui->z_line->setValidator(new QDoubleValidator(-100, 100, 3, this));
+    ui->wavelength_line->setValidator(new QDoubleValidator(0, 1000, 3, this));
+    ui->z_line->setValidator(new QDoubleValidator(0, 100000, 3, this));
+    ui->spiral_wavelength_line->setValidator(new QDoubleValidator(0, 100000, 3, this));
+    ui->l_line->setValidator(new QDoubleValidator(-100, 100, 3, this));
+    ui->r0_line->setValidator(new QDoubleValidator(0, 1, 3, this));
+    ui->spiral_thickness_line->setValidator(new QDoubleValidator(0, 0.5, 3, this));
+    QFont font1 = ui->total_oam_label->font();
+    font1.setPointSize(12);
+    ui->total_oam_label->setFont(font1);
+    QFont font2 = ui->phase_type_label->font();
+    font2.setPointSize(10);
+    ui->phase_type_label->setFont(font2);
     QIntPowerOf2Validator* validator = new QIntPowerOf2Validator(this);
     connect(validator,  SIGNAL(setError(QString,int)),
             ui->statusbar, SLOT(showMessage(QString,int)));
     ui->fft_expansion_line->setValidator(validator);
     on_fft_expansion_line_editingFinished();
-    /* to display the initial phase and gauss distributions*/
-    display_both();
+    is_init = false;
+    ui->z_line->setFocusPolicy(Qt::StrongFocus);
+    ui->z_line->setFocus();
+    /* display the initial phase and gauss distributions*/
+    display_spp_and_gauss_beam();
+    display_spiral();
+    phase_type = phase_type::spiral;
 }
 
 MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size) {
-    if (!is_amplitude_from_file && !is_phase_from_file) {
-        complex_amplitude_ = complex_amplitude(gauss_beam_, vortex_, size, hole_);
-    } else if (is_amplitude_from_file && !is_phase_from_file) {
-        QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        complex_amplitude_ = complex_amplitude(amplitude_image, vortex_, hole_);
-    } else if (!is_amplitude_from_file && is_phase_from_file) {
-        QImage phase_image = phase_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        complex_amplitude_ = complex_amplitude(gauss_beam_, phase_image, hole_);
-    } else {
-        QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        QImage phase_image = phase_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        complex_amplitude_ = complex_amplitude(amplitude_image, phase_image, hole_);
+void MainWindow::read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size, enum phase_type phase_type) {
+    switch (phase_type) {
+    case spp : {
+        if (!is_amplitude_from_file && !is_phase_from_file) {
+            complex_amplitude_ = complex_amplitude(gauss_beam_, vortex_, size, hole_);
+        } else if (is_amplitude_from_file && !is_phase_from_file) {
+            QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            complex_amplitude_ = complex_amplitude(amplitude_image, vortex_, hole_);
+        } else if (!is_amplitude_from_file && is_phase_from_file) {
+            QImage phase_image = phase_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            complex_amplitude_ = complex_amplitude(gauss_beam_, phase_image, hole_);
+        } else {
+            QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            QImage phase_image = phase_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            complex_amplitude_ = complex_amplitude(amplitude_image, phase_image, hole_);
+        }
+        break;
+    }
+    case spiral :{
+        if (!is_amplitude_from_file) {
+            complex_amplitude_ = complex_amplitude(gauss_beam_, spiral_, size, hole_);
+        } else {
+            QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            complex_amplitude_ = complex_amplitude(amplitude_image, spiral_, hole_);
+        }
+        break;
+    }
     }
 }
 
 void MainWindow::on_fft_clicked() {
     //QSize size(256,256);
+    FUNCTION_LOG
+    qDebug() << phase_type;
     complex_amplitude complex_amplitude_;
-    read_complex_amplitude(complex_amplitude_, size);
-    complex_amplitude_.FFT2D(fft_expansion);
+    read_complex_amplitude(complex_amplitude_, size, phase_type);
+    //complex_amplitude_.FFT2D(fft_expansion);
+    if (ui->z_line->text().toDouble() == 0) {
+        complex_amplitude_.FFT2D(fft_expansion);
+    } else {
+        complex_amplitude_.FresnelT(ui->ph_size_line->text().toDouble(),ui->z_line->text().toDouble(), ui->wavelength_line->text().toDouble(), fft_expansion);
+    }
     intensity_cur = complex_amplitude_.get_qimage(out_field_type::intensity, scheme::gray);
     out_amplitude_cur = complex_amplitude_.get_qimage(out_field_type::amplitude, scheme::gray);
     out_phase_cur = complex_amplitude_.get_qimage(out_field_type::phase, scheme::gray);
@@ -83,8 +125,13 @@ void MainWindow::on_fft_clicked() {
 void MainWindow::on_find_oam_clicked() {
     //QSize size(256,256);
     complex_amplitude complex_amplitude_;
-    read_complex_amplitude(complex_amplitude_, size);
-    complex_amplitude_.FFT2D(fft_expansion);
+    read_complex_amplitude(complex_amplitude_, size, phase_type);
+    //complex_amplitude_.FFT2D(fft_expansion);
+    if (ui->z_line->text().toDouble() == 0) {
+        complex_amplitude_.FFT2D(fft_expansion);
+    } else {
+        complex_amplitude_.FresnelT(ui->ph_size_line->text().toDouble(),ui->z_line->text().toDouble(), ui->wavelength_line->text().toDouble(), fft_expansion);
+    }
     QVector<double> total_oam;
     oam_density_cur = complex_amplitude_.get_oam_qimage(total_oam, scheme::gray);
     QImage oam_density_to_show = oam_density_cur.copy();
@@ -122,16 +169,23 @@ void MainWindow::on_load_phase_triggered() {
         QPixmap scale_pixmap(":/scales/" + color_scheme_to_string(scheme::gray) + "_192.bmp");
         ui->in_phase_color_scheme_label->setPixmap(scale_pixmap);
         is_phase_from_file = true;
+        phase_type = phase_type::spp;
+        ui->phase_type_label->setText("Сейчас используется ОСФП");
     }
 }
 
 void MainWindow::display_spp() {
+    if (is_init) {
+        return;
+    }
     if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
             && vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_))) {
         return;
     }
     //QSize size(256, 256);
-    gauss_beam gauss_beam(0.6, 0, 0); // gauss parameters are no matter
+    phase_type = phase_type::spp;
+    ui->phase_type_label->setText("Сейчас используется ОСФП");
+    gauss_beam gauss_beam(1, 0, 0); // gauss parameters don't matter
     complex_amplitude a_vortex(gauss_beam, vortex_, size, hole_);
     QImage temp = a_vortex.get_qimage(out_field_type::phase, in_phase_color_scheme).copy();
     temp = temp.convertToFormat(QImage::Format_RGB32);
@@ -141,13 +195,16 @@ void MainWindow::display_spp() {
 }
 
 void MainWindow::display_gauss_beam() {
+    if (is_init) {
+        return;
+    }
     bool b1 = hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_);
     bool b2 = gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, gauss_beam_);
     if (!(b1 && b2)) {
         return;
     }
     //QSize size(256, 256);
-    class vortex vortex(1, 1); // vortex parameters are no matter
+    class vortex vortex(1, 1); // vortex parameters don't matter
     complex_amplitude a_vortex(gauss_beam_, vortex, size, hole_);
     QImage temp = a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy();
     temp = temp.convertToFormat(QImage::Format_RGB32);
@@ -156,7 +213,29 @@ void MainWindow::display_gauss_beam() {
     is_amplitude_from_file = false;
 }
 
-void MainWindow::display_both() {
+void MainWindow::display_spiral() {
+    if (is_init) {
+        return;
+    }
+    if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
+          && spiral::spiral_param_preprocessing(ui->spiral_z_line, ui->spiral_wavelength_line, ui->l_line, ui->r0_line, ui->spiral_thickness_line, spiral_))) {
+        return;
+    }
+    //QSize size(256, 256);
+    phase_type = phase_type::spiral;
+    ui->phase_type_label->setText("Сейчас используется спираль");
+    gauss_beam gauss_beam(1, 0, 0); // gauss parameters don't matter
+    complex_amplitude a_spiral(gauss_beam, spiral_, size, hole_);
+    QImage temp = a_spiral.get_qimage(out_field_type::phase, spiral_color_scheme).copy();
+    temp = temp.convertToFormat(QImage::Format_RGB32);
+    complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
+    ui->spiral_image->setPixmap(QPixmap::fromImage(temp));
+}
+
+void MainWindow::display_spp_and_gauss_beam() {
+    if (is_init) {
+        return;
+    }
     bool b1 = hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_);
     bool b2 = gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, gauss_beam_);
     bool b3 = vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_);
@@ -164,8 +243,10 @@ void MainWindow::display_both() {
         return;
     }
     //QSize size(256,256);
+    FUNCTION_LOG
+    qDebug() << phase_type;
     complex_amplitude complex_amplitude_;
-    read_complex_amplitude(complex_amplitude_, size);
+    read_complex_amplitude(complex_amplitude_, size, phase_type::spp);
     if (is_phase_from_file) {
         ui->spp_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::phase)));
     } else {
@@ -198,11 +279,11 @@ void MainWindow::on_fft_expansion_line_editingFinished() {
 
 void MainWindow::save(QString filename, QString format, out_field_type type, scheme color_scheme, bool out_field) {
 
-    FUNCTION_LOG
+    //FUNCTION_LOG
 
     if (!filename.isEmpty() && !format.isEmpty()) {
         complex_amplitude complex_amplitude_;
-        read_complex_amplitude(complex_amplitude_, size);
+        read_complex_amplitude(complex_amplitude_, size, phase_type);
         QImage image;
         if (out_field) {
             complex_amplitude_.FFT2D(fft_expansion);
@@ -240,14 +321,10 @@ void MainWindow::save(QString filename, QString format, out_field_type type, sch
     }
 }
 
-
 void MainWindow::save(out_field_type type, scheme color_scheme, QString description, bool out_field) {
-
-    FUNCTION_LOG
-
     QString filename = QFileDialog::getSaveFileName(this,
                        description,
-                       "C:\\Users\\walle\\OneDrive - Samara University\\Изображения\\к рисункам 2.14-2.17 расширение БПФ = 8\\n = 1.5",
+                       QDir::currentPath(),
                        filters,
                        &defaultFilter);
     QStringList pieces = filename.split(".");
@@ -281,7 +358,7 @@ void MainWindow::on_save_oam_triggered() {
 void MainWindow::on_save_all_out_distributions_triggered() {
     QString filename_ = QFileDialog::getSaveFileName(this,
                         "Сохранить все распределения",
-                        "C:/Users/Laufinsconsca/temp",
+                        QDir::currentPath(),
                         filters,
                         &defaultFilter);
     const QString filename = filename_.left(filename_.lastIndexOf('.'));
@@ -295,7 +372,7 @@ void MainWindow::on_save_all_out_distributions_triggered() {
     save(filename + "_oam", format, out_field_type::oam, oam_color_scheme, true);
 }
 
-void MainWindow::on_comboBox_textActivated(const QString &arg1) {
+void MainWindow::on_comboBox_activated(const QString &arg1) {
     enum hole_type old_type = hole_type;
     if (arg1 == "фазовое") {
         hole_type = hole_type::phase_hole;
@@ -309,7 +386,7 @@ void MainWindow::on_comboBox_textActivated(const QString &arg1) {
     hole_.set_hole_type(hole_type);
     is_hole_type_changed = old_type != hole_type;
     if (is_hole_type_changed) {
-        display_both();
+        display_spp_and_gauss_beam();
     }
 }
 
@@ -317,11 +394,11 @@ void MainWindow::on_settings_triggered() {
     settings->show();
 }
 
-void MainWindow::recieve_size(QSize& size) {
+void MainWindow::receive_size(QSize& size) {
     this->size = size;
 }
 
-void MainWindow::recieve_in_amplitude_color_scheme(scheme color_scheme) {
+void MainWindow::receive_in_amplitude_color_scheme(scheme color_scheme) {
     if (in_amplitude_color_scheme != color_scheme) {
         in_amplitude_color_scheme = color_scheme;
         display_gauss_beam();
@@ -333,14 +410,26 @@ void MainWindow::recieve_in_amplitude_color_scheme(scheme color_scheme) {
     }
 }
 
-void MainWindow::recieve_in_phase_color_scheme(scheme color_scheme) {
+void MainWindow::receive_in_phase_color_scheme(scheme color_scheme) {
     if (in_phase_color_scheme != color_scheme) {
         in_phase_color_scheme = color_scheme;
         display_spp();
         QString string = color_scheme_to_string(color_scheme);
         if (string != "Unknown color map") {
-            QPixmap pixmap(":/scales/" + color_scheme_to_string(color_scheme) + "_192.bmp");
+            QPixmap pixmap(":/scales/phase_scales/" + color_scheme_to_string(color_scheme) + "_192.bmp");
             ui->in_phase_color_scheme_label->setPixmap(pixmap);
+        }
+    }
+}
+
+void MainWindow::receive_spiral_color_scheme(scheme color_scheme) {
+    if (spiral_color_scheme != color_scheme) {
+        spiral_color_scheme = color_scheme;
+        display_spiral();
+        QString string = color_scheme_to_string(color_scheme);
+        if (string != "Unknown color map") {
+            QPixmap pixmap(":/scales/phase_scales/" + color_scheme_to_string(color_scheme) + "_192.bmp");
+            ui->spiral_color_scheme_label->setPixmap(pixmap);
         }
     }
 }
@@ -365,14 +454,14 @@ void MainWindow::recieve_out_amplitude_color_scheme(scheme color_scheme) {
     auxiliary_function_to_process_changing_color_scheme(ui->amplitude_image, ui->out_amplitude_color_scheme_label, out_amplitude_cur, color_scheme, out_amplitude_color_scheme);
 }
 
-void MainWindow::recieve_out_phase_color_scheme(scheme color_scheme) {
+void MainWindow::receive_out_phase_color_scheme(scheme color_scheme) {
     auxiliary_function_to_process_changing_color_scheme(ui->phase_image, ui->out_phase_color_scheme_label, out_phase_cur, color_scheme, out_phase_color_scheme);
 }
 
-void MainWindow::recieve_intensity_color_scheme(scheme color_scheme) {
+void MainWindow::receive_intensity_color_scheme(scheme color_scheme) {
     auxiliary_function_to_process_changing_color_scheme(ui->intensity_image, ui->intensity_color_scheme_label, intensity_cur, color_scheme, intensity_color_scheme);
 }
 
-void MainWindow::recieve_oam_color_scheme(scheme color_scheme) {
+void MainWindow::receive_oam_color_scheme(scheme color_scheme) {
     auxiliary_function_to_process_changing_color_scheme(ui->oam_density_image, ui->oam_color_scheme_label, oam_density_cur, color_scheme, oam_color_scheme);
 }

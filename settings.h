@@ -44,19 +44,21 @@ signals:
     void send_out_phase_color_scheme(scheme color_scheme);
     void send_intensity_color_scheme(scheme color_scheme);
     void send_oam_color_scheme(scheme color_scheme);
+    void send_spiral_color_scheme(scheme color_scheme);
 private:
     Ui::Settings *ui;
     static bool compare(QString arg1, QString arg2);
     void choose_scheme_template(const QString &arg1, QLabel* label, QComboBox* combo_box, void (Settings::*signal)(scheme));
 
 private slots:
-    void on_size_combo_box_textActivated(const QString &arg1);
-    void on_in_amplitude_color_scheme_combo_box_textActivated(const QString &arg1);
-    void on_in_phase_color_scheme_combo_box_textActivated(const QString &arg1);
-    void on_out_amplitude_color_scheme_combo_box_textActivated(const QString &arg1);
-    void on_out_phase_color_scheme_combo_box_textActivated(const QString &arg1);
-    void on_intensity_color_scheme_combo_box_textActivated(const QString &arg1);
-    void on_oam_color_scheme_combo_box_textActivated(const QString &arg1);
+    void on_size_combo_box_activated(const QString &arg1);
+    void on_in_amplitude_color_scheme_combo_box_activated(const QString &arg1);
+    void on_in_phase_color_scheme_combo_box_activated(const QString &arg1);
+    void on_out_amplitude_color_scheme_combo_box_activated(const QString &arg1);
+    void on_out_phase_color_scheme_combo_box_activated(const QString &arg1);
+    void on_intensity_color_scheme_combo_box_activated(const QString &arg1);
+    void on_oam_color_scheme_combo_box_activated(const QString &arg1);
+    void on_spiral_color_scheme_combo_box_activated(const QString &arg1);
 };
 
 #endif // SETTINGS_H
