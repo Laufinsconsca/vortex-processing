@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(settings, &Settings::send_out_phase_color_scheme, this, &MainWindow::receive_out_phase_color_scheme);
     connect(settings, &Settings::send_intensity_color_scheme, this, &MainWindow::receive_intensity_color_scheme);
     connect(settings, &Settings::send_oam_color_scheme, this, &MainWindow::receive_oam_color_scheme);
-    connect(settings, &Settings::send_spiral_color_scheme, this, &MainWindow::receive_spiral_color_scheme);
+    //connect(settings, &Settings::send_spiral_color_scheme, this, &MainWindow::receive_spiral_color_scheme);
     settings->initialize_color_maps();
     connect(ui->m_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp);
     connect(ui->fi_line, &QLineEdit::editingFinished, this, &MainWindow::display_spp);
@@ -58,51 +58,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->z_line->setFocus();
     /* display the initial phase and gauss distributions*/
     display_spp_and_gauss_beam();
-    display_spiral();
-    phase_type = phase_type::spiral;
+    //display_spiral();
 }
 
 MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size, enum phase_type phase_type) {
-    switch (phase_type) {
-    case spp : {
-        if (!is_amplitude_from_file && !is_phase_from_file) {
-            complex_amplitude_ = complex_amplitude(gauss_beam_, vortex_, size, hole_);
-        } else if (is_amplitude_from_file && !is_phase_from_file) {
-            QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            complex_amplitude_ = complex_amplitude(amplitude_image, vortex_, hole_);
-        } else if (!is_amplitude_from_file && is_phase_from_file) {
-            QImage phase_image = phase_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            complex_amplitude_ = complex_amplitude(gauss_beam_, phase_image, hole_);
-        } else {
-            QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            QImage phase_image = phase_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            complex_amplitude_ = complex_amplitude(amplitude_image, phase_image, hole_);
-        }
-        break;
-    }
-    case spiral :{
-        if (!is_amplitude_from_file) {
-            complex_amplitude_ = complex_amplitude(gauss_beam_, spiral_, size, hole_);
-        } else {
-            QImage amplitude_image = amplitude_from_file.copy().scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            complex_amplitude_ = complex_amplitude(amplitude_image, spiral_, hole_);
-        }
-        break;
-    }
-    }
-}
-
 void MainWindow::on_fft_clicked() {
-    //QSize size(256,256);
     FUNCTION_LOG
-    qDebug() << phase_type;
-    complex_amplitude complex_amplitude_;
-    read_complex_amplitude(complex_amplitude_, size, phase_type);
-    //complex_amplitude_.FFT2D(fft_expansion);
+
+    complex_amplitude complex_amplitude_ = complex_amplitude(in_amplitude, in_phase, hole_);
     if (ui->z_line->text().toDouble() == 0) {
         complex_amplitude_.FFT2D(fft_expansion);
     } else {
@@ -123,10 +89,7 @@ void MainWindow::on_fft_clicked() {
 }
 
 void MainWindow::on_find_oam_clicked() {
-    //QSize size(256,256);
-    complex_amplitude complex_amplitude_;
-    read_complex_amplitude(complex_amplitude_, size, phase_type);
-    //complex_amplitude_.FFT2D(fft_expansion);
+    complex_amplitude complex_amplitude_ = complex_amplitude(in_amplitude, in_phase, hole_);
     if (ui->z_line->text().toDouble() == 0) {
         complex_amplitude_.FFT2D(fft_expansion);
     } else {
@@ -149,11 +112,10 @@ void MainWindow::on_load_amplitude_triggered() {
                        tr("Изображения (*.png *.bmp *.jpg)"));
     if (!filename.isEmpty()) {
         QPixmap pixmap(filename);
-        amplitude_from_file = pixmap.toImage();
+        in_amplitude= pixmap.toImage();
         ui->gauss_image->setPixmap(pixmap);
         QPixmap scale_pixmap(":/scales/" + color_scheme_to_string(scheme::gray) + "_192.bmp");
         ui->in_amplitude_color_scheme_label->setPixmap(scale_pixmap);
-        is_amplitude_from_file = true;
     }
 }
 
@@ -164,13 +126,10 @@ void MainWindow::on_load_phase_triggered() {
                        tr("Изображения (*.png *.bmp *.jpg)"));
     if (!filename.isEmpty()) {
         QPixmap pixmap(filename);
-        phase_from_file = pixmap.toImage();
+        in_phase = pixmap.toImage();
         ui->spp_image->setPixmap(pixmap);
         QPixmap scale_pixmap(":/scales/" + color_scheme_to_string(scheme::gray) + "_192.bmp");
         ui->in_phase_color_scheme_label->setPixmap(scale_pixmap);
-        is_phase_from_file = true;
-        phase_type = phase_type::spp;
-        ui->phase_type_label->setText("Сейчас используется ОСФП");
     }
 }
 
@@ -182,35 +141,29 @@ void MainWindow::display_spp() {
             && vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_))) {
         return;
     }
-    //QSize size(256, 256);
-    phase_type = phase_type::spp;
-    ui->phase_type_label->setText("Сейчас используется ОСФП");
-    gauss_beam gauss_beam(1, 0, 0); // gauss parameters don't matter
+    class gauss_beam gauss_beam(1, 0, 0); // gauss parameters don't matter
     complex_amplitude a_vortex(gauss_beam, vortex_, size, hole_);
-    QImage temp = a_vortex.get_qimage(out_field_type::phase, in_phase_color_scheme).copy();
-    temp = temp.convertToFormat(QImage::Format_RGB32);
+    in_phase = a_vortex.get_qimage(out_field_type::phase, scheme::gray);
+    QImage temp = a_vortex.get_qimage(out_field_type::phase, in_phase_color_scheme).copy().convertToFormat(QImage::Format_RGB32);
     complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
     ui->spp_image->setPixmap(QPixmap::fromImage(temp));
-    is_phase_from_file = false;
 }
 
 void MainWindow::display_gauss_beam() {
     if (is_init) {
         return;
     }
-    bool b1 = hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_);
-    bool b2 = gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, gauss_beam_);
+    bool b1 = gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, gauss_beam_);
+    bool b2 = hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_);
     if (!(b1 && b2)) {
         return;
     }
-    //QSize size(256, 256);
     class vortex vortex(1, 1); // vortex parameters don't matter
     complex_amplitude a_vortex(gauss_beam_, vortex, size, hole_);
-    QImage temp = a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy();
-    temp = temp.convertToFormat(QImage::Format_RGB32);
+    in_amplitude = a_vortex.get_qimage(out_field_type::amplitude, scheme::gray);
+    QImage temp = a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy().convertToFormat(QImage::Format_RGB32);
     complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
     ui->gauss_image->setPixmap(QPixmap::fromImage(temp));
-    is_amplitude_from_file = false;
 }
 
 void MainWindow::display_spiral() {
@@ -218,51 +171,39 @@ void MainWindow::display_spiral() {
         return;
     }
     if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
-          && spiral::spiral_param_preprocessing(ui->spiral_z_line, ui->spiral_wavelength_line, ui->l_line, ui->r0_line, ui->spiral_thickness_line, spiral_))) {
+          && gauss_beam::spiral_gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, ui->spiral_z_line, ui->spiral_wavelength_line, ui->l_line, ui->r0_line, ui->spiral_thickness_line, ui->ph_size_line, gauss_beam_))) {
         return;
     }
-    //QSize size(256, 256);
-    phase_type = phase_type::spiral;
-    ui->phase_type_label->setText("Сейчас используется спираль");
-    gauss_beam gauss_beam(1, 0, 0); // gauss parameters don't matter
-    complex_amplitude a_spiral(gauss_beam, spiral_, size, hole_);
-    QImage temp = a_spiral.get_qimage(out_field_type::phase, spiral_color_scheme).copy();
-    temp = temp.convertToFormat(QImage::Format_RGB32);
+    // вырезаем из гаусса спираль
+    class vortex vortex(1, 1); // vortex parameters don't matter
+    complex_amplitude a_vortex(gauss_beam_, vortex, size, hole_);
+    in_amplitude = a_vortex.get_qimage(out_field_type::amplitude, scheme::gray);
+    QImage temp = a_vortex.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy().convertToFormat(QImage::Format_RGB32);
     complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
-    ui->spiral_image->setPixmap(QPixmap::fromImage(temp));
+    ui->gauss_image->setPixmap(QPixmap::fromImage(temp));
 }
 
 void MainWindow::display_spp_and_gauss_beam() {
     if (is_init) {
         return;
     }
-    bool b1 = hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_);
-    bool b2 = gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, gauss_beam_);
+    bool b1 = gauss_beam::gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, gauss_beam_);
+    bool b2 = hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_);
     bool b3 = vortex::spp_param_preprocessing(ui->m_line, ui->fi_line, vortex_);
     if (!(b1 && b2 && b3)) {
         return;
     }
-    //QSize size(256,256);
-    FUNCTION_LOG
-    qDebug() << phase_type;
-    complex_amplitude complex_amplitude_;
-    read_complex_amplitude(complex_amplitude_, size, phase_type::spp);
-    if (is_phase_from_file) {
-        ui->spp_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::phase)));
-    } else {
-        QImage temp = complex_amplitude_.get_qimage(out_field_type::phase, in_phase_color_scheme);
-        temp = temp.convertToFormat(QImage::Format_RGB32);
-        complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
-        ui->spp_image->setPixmap(QPixmap::fromImage(temp));
-    }
-    if (is_amplitude_from_file) {
-        ui->gauss_image->setPixmap(QPixmap::fromImage(complex_amplitude_.get_qimage(out_field_type::amplitude)));
-    } else {
-        QImage temp = complex_amplitude_.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme);
-        temp = temp.convertToFormat(QImage::Format_RGB32);
-        complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
-        ui->gauss_image->setPixmap(QPixmap::fromImage(temp));
-    }
+    complex_amplitude an_amplitude(gauss_beam_, vortex_, size, hole_);
+
+    in_amplitude = an_amplitude.get_qimage(out_field_type::amplitude, scheme::gray);
+    QImage temp = an_amplitude.get_qimage(out_field_type::amplitude, in_amplitude_color_scheme).copy().convertToFormat(QImage::Format_RGB32);
+    complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
+    ui->gauss_image->setPixmap(QPixmap::fromImage(temp));
+
+    in_phase = an_amplitude.get_qimage(out_field_type::phase, scheme::gray);
+    temp = an_amplitude.get_qimage(out_field_type::phase, in_phase_color_scheme).copy().convertToFormat(QImage::Format_RGB32);
+    complex_amplitude::set_color_out_of_the_circle(temp, background_out_the_circle_in_field_color);
+    ui->spp_image->setPixmap(QPixmap::fromImage(temp));
 }
 
 void MainWindow::on_fft_expansion_line_editingFinished() {
@@ -279,11 +220,10 @@ void MainWindow::on_fft_expansion_line_editingFinished() {
 
 void MainWindow::save(QString filename, QString format, out_field_type type, scheme color_scheme, bool out_field) {
 
-    //FUNCTION_LOG
+    FUNCTION_LOG
 
     if (!filename.isEmpty() && !format.isEmpty()) {
-        complex_amplitude complex_amplitude_;
-        read_complex_amplitude(complex_amplitude_, size, phase_type);
+        complex_amplitude complex_amplitude_ = complex_amplitude(in_amplitude, in_phase, hole_);
         QImage image;
         if (out_field) {
             complex_amplitude_.FFT2D(fft_expansion);

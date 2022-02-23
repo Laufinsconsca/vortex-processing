@@ -53,11 +53,6 @@ enum hole_type {
     none
 };
 
-enum phase_type {
-    spp,
-    spiral
-};
-
 QString color_scheme_to_string(scheme color);
 QVector<QRgb> load_color_map(scheme color_scheme);
 

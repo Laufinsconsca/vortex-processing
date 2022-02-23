@@ -90,16 +90,13 @@ private:
     double shift;
     hole_type hole_type = hole_type::none;
     bool is_hole_type_changed;
-    phase_type phase_type;
     class vortex vortex_;
-    gauss_beam gauss_beam_;
+    class gauss_beam gauss_beam_;
     class spiral spiral_;
     hole hole_;
-    bool is_amplitude_from_file = false;
-    bool is_phase_from_file = false;
     bool is_init = true;
-    QImage amplitude_from_file;
-    QImage phase_from_file;
+    QImage in_amplitude; // текущая входная амплитуда (8-битная серая)
+    QImage in_phase; // текущая входная фаза (8-битная серая)
     QImage out_amplitude_cur;
     QImage out_phase_cur;
     QImage intensity_cur;
@@ -109,7 +106,7 @@ private:
     QString defaultFilter{"BMP (*.bmp)"};
     void save(QString filename, QString format, out_field_type type, scheme color_scheme, bool out_field);
     void save(out_field_type type, scheme color_scheme, QString description, bool out_field);
-    void read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size, enum phase_type phase_type);
+    //void read_complex_amplitude(complex_amplitude& complex_amplitude_, QSize& size);
     Settings* settings;
     QColor background_out_the_circle_in_field_color = QColor(240,240,240);
     QColor background_out_the_circle_in_field_color_to_save = QColor(255,255,255);
