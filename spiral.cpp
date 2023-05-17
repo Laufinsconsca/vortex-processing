@@ -21,7 +21,6 @@ std::vector<std::vector<double>>& spiral::spiral_to_vector(const spiral& spiral,
             double ph_size_coefficient = 4./(spiral.ph_size*spiral.ph_size);
             if (abs(r*r - spiral.r0*spiral.r0 - ph_size_coefficient*angle*spiral.z*spiral.l*lambda/M_PI) < spiral.d) {
                 spiral_vector.at(i).push_back(M_PI);
-                //spiral_vector.at(i).push_back(0);
             } else {
                 spiral_vector.at(i).push_back(0);
             }

@@ -57,6 +57,10 @@ private slots:
 
     void display_spiral();
 
+    void display_polygonal_spiral();
+
+    void display_curve();
+
     void display_spp_and_gauss_beam();
 
     void on_fft_expansion_line_editingFinished();
@@ -78,6 +82,8 @@ private slots:
     void on_save_all_out_distributions_triggered();
 
     void on_comboBox_activated(const QString &arg1);
+
+    void on_polygonal_spiral_type_combo_box_activated(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;

@@ -3,7 +3,7 @@
 QIntPowerOf2Validator::QIntPowerOf2Validator(QObject *parent) {
 }
 
-QValidator::State QIntPowerOf2Validator::validate (QString& input,int& pos) const {
+QValidator::State QIntPowerOf2Validator::validate (QString& input, int& pos) const {
     if (input.isEmpty()) {
         emit setError("", 1);
         return Intermediate;

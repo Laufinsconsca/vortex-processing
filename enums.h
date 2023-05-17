@@ -53,6 +53,19 @@ enum hole_type {
     none
 };
 
+enum amplitude_type {
+    gauss_type,
+    spiral_type,
+    polygonal_spiral_type,
+    curve_type
+};
+
+enum polygonal_spiral_type {
+    triangular,
+    square,
+    pentagonal
+};
+
 QString color_scheme_to_string(scheme color);
 QVector<QRgb> load_color_map(scheme color_scheme);
 

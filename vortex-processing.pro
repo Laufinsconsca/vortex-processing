@@ -10,12 +10,14 @@ CONFIG += c++11
 
 SOURCES += \
     complex_amplitude.cpp \
+    curve.cpp \
     custom_validators.cpp \
     enums.cpp \
     gauss_beam.cpp \
     hole.cpp \
     main.cpp \
     mainwindow.cpp \
+    polygonal_spiral.cpp \
     settings.cpp \
     spiral.cpp \
     transformation.cpp \
@@ -23,12 +25,14 @@ SOURCES += \
 
 HEADERS += \
     complex_amplitude.h \
+    curve.h \
     custom_validators.h \
     enums.h \
     gauss_beam.h \
     hole.h \
     log.h \
     mainwindow.h \
+    polygonal_spiral.h \
     settings.h \
     spiral.h \
     transformation.h \
