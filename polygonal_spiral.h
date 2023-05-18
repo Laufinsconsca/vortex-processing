@@ -13,8 +13,8 @@
 class polygonal_spiral {
 public:
     double pitch;
-    double skip;
     double total;
+    double skip;
     /* spiral thickness */
     double d;
     enum polygonal_spiral_type polygonal_spiral_type;

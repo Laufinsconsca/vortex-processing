@@ -22,10 +22,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->sigma_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
     connect(ui->shift_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
     connect(ui->shift_angle_line, &QLineEdit::editingFinished, this, &MainWindow::display_gauss_beam);
+
     connect(ui->spiral_z_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
     connect(ui->spiral_wavelength_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
     connect(ui->l_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
     connect(ui->r0_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
+    connect(ui->a_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
+    connect(ui->b_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
     connect(ui->spiral_thickness_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
     connect(ui->spiral_z_line, &QLineEdit::editingFinished, this, &MainWindow::display_spiral);
 
@@ -182,7 +185,7 @@ void MainWindow::display_spiral() {
         return;
     }
     if (!(hole::holes_param_preprocessing(ui->r_d_line, ui-> r_hole_line, ui->r_fi_line, hole_type, is_hole_type_changed, qobject_cast<QLineEdit*>(sender()), hole_)
-          && gauss_beam::spiral_gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, ui->spiral_z_line, ui->spiral_wavelength_line, ui->l_line, ui->r0_line, ui->spiral_thickness_line, ui->ph_size_line, gauss_beam_))) {
+          && gauss_beam::spiral_gauss_param_preprocessing(ui->sigma_line, ui->shift_line, ui->shift_angle_line, ui->spiral_z_line, ui->spiral_wavelength_line, ui->l_line, ui->r0_line, ui->a_line, ui->b_line, ui->spiral_thickness_line, ui->ph_size_line, ui->spiral_type_combo_box, gauss_beam_))) {
         return;
     }
     // вырезаем из гаусса спираль
@@ -382,6 +385,10 @@ void MainWindow::on_comboBox_activated(const QString &arg1) {
     if (is_hole_type_changed) {
         display_spp_and_gauss_beam();
     }
+}
+
+void MainWindow::on_spiral_type_combo_box_activated(const QString &arg1) {
+    display_spiral();
 }
 
 void MainWindow::on_polygonal_spiral_type_combo_box_activated(const QString &arg1) {

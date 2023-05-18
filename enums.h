@@ -60,6 +60,11 @@ enum amplitude_type {
     curve_type
 };
 
+enum spiral_type {
+    archimedean,
+    logarithmic
+};
+
 enum polygonal_spiral_type {
     triangular,
     square,

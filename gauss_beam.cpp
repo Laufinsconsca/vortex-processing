@@ -44,7 +44,7 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
             double ph_size_coefficient = 4./(gauss_beam.spiral_.ph_size*gauss_beam.spiral_.ph_size);
             double pitch = gauss_beam.polygonal_spiral_.pitch;
             double polygonal_spiral_thickness = gauss_beam.polygonal_spiral_.d;
-            bool squareSpiral1, squareSpiral2 = false;
+            bool spiral, squareSpiral1, squareSpiral2 = false;
             switch (gauss_beam.type) {
             case amplitude_type::gauss_type :
                 ref_beam.at(i).push_back((exp(-(pow(x - gauss_beam.shift, 2) + y * y) / (2 * gauss_beam.sigma * gauss_beam.sigma))));
@@ -127,9 +127,18 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
             case amplitude_type::curve_type :
                 ref_beam.at(i).push_back((exp(-(pow(x - gauss_beam.shift, 2) + y * y) / (2 * gauss_beam.sigma * gauss_beam.sigma))));
                 break;
-            case amplitude_type::spiral_type :
-                double lambda = gauss_beam.spiral_.lambda/1e9;
-                if (abs(r*r - gauss_beam.spiral_.r0*gauss_beam.spiral_.r0 - ph_size_coefficient*angle*gauss_beam.spiral_.z*gauss_beam.spiral_.l*lambda/M_PI) < gauss_beam.spiral_.d) {
+            case amplitude_type::spiral_type : 
+                switch (gauss_beam.spiral_.spiral_type) {
+                case spiral_type::archimedean :
+                    spiral = spiral::archimedean_spiral_def(gauss_beam.spiral_, r, angle, ph_size_coefficient);
+                break;
+                case spiral_type::logarithmic :
+                    spiral = spiral::logarithmic_spiral_def(gauss_beam.spiral_, r, angle)
+                            || spiral::logarithmic_spiral_def(gauss_beam.spiral_, r, angle+2*M_PI)
+                            || spiral::logarithmic_spiral_def(gauss_beam.spiral_, r, angle+4*M_PI);
+                break;
+                }
+                if (spiral) {
                     ref_beam.at(i).push_back((exp(-(pow(x - gauss_beam.shift, 2) + y * y) / (2 * gauss_beam.sigma * gauss_beam.sigma))));
                 } else {
                     ref_beam.at(i).push_back(0);
@@ -164,11 +173,11 @@ bool gauss_beam::gauss_param_preprocessing(QLineEdit* sigma_line, QLineEdit* shi
     }
 }
 
-bool gauss_beam::spiral_gauss_param_preprocessing(QLineEdit* sigma_line, QLineEdit* shift_line, QLineEdit* shift_angle_line, QLineEdit* z_line, QLineEdit* lambda_line, QLineEdit* l_line, QLineEdit* r0_line, QLineEdit* spiral_thickness_line, QLineEdit* ph_size_line, gauss_beam &gauss_beam) {
-    if (sigma_line->text().isEmpty() || shift_line->text().isEmpty() || shift_angle_line->text().isEmpty() || z_line->text().isEmpty() || lambda_line->text().isEmpty() || l_line->text().isEmpty() || r0_line->text().isEmpty() || spiral_thickness_line->text().isEmpty() || ph_size_line->text().isEmpty()) {
+bool gauss_beam::spiral_gauss_param_preprocessing(QLineEdit* sigma_line, QLineEdit* shift_line, QLineEdit* shift_angle_line, QLineEdit* z_line, QLineEdit* lambda_line, QLineEdit* l_line, QLineEdit* r0_line, QLineEdit* a_line, QLineEdit* b_line, QLineEdit* spiral_thickness_line, QLineEdit* ph_size_line, QComboBox* spiral_type_combo_box, gauss_beam &gauss_beam) {
+    if (sigma_line->text().isEmpty() || shift_line->text().isEmpty() || shift_angle_line->text().isEmpty() || z_line->text().isEmpty() || lambda_line->text().isEmpty() || l_line->text().isEmpty() || r0_line->text().isEmpty() || a_line->text().isEmpty() || b_line->text().isEmpty() || spiral_thickness_line->text().isEmpty() || ph_size_line->text().isEmpty()) {
         return gauss_param_preprocessing(sigma_line, shift_line, shift_angle_line, gauss_beam);
     }
-    bool sigma_line_to_string_ok, shift_line_to_string_ok, shift_angle_line_to_string_ok, z_line_to_string_ok, lambda_line_to_string_ok, l_line_to_string_ok, r0_line_to_string_ok, spiral_thickness_line_to_string_ok, ph_size_line_ok;
+    bool sigma_line_to_string_ok, shift_line_to_string_ok, shift_angle_line_to_string_ok, z_line_to_string_ok, lambda_line_to_string_ok, l_line_to_string_ok, r0_line_to_string_ok, a_line_to_string_ok, b_line_to_string_ok, spiral_thickness_line_to_string_ok, ph_size_line_ok;
     double sigma = sigma_line->text().toDouble(&sigma_line_to_string_ok);
     double shift = shift_line->text().toDouble(&shift_line_to_string_ok);
     double shift_angle = shift_angle_line->text().toDouble(&shift_angle_line_to_string_ok);
@@ -176,10 +185,12 @@ bool gauss_beam::spiral_gauss_param_preprocessing(QLineEdit* sigma_line, QLineEd
     double lambda = lambda_line->text().toDouble(&lambda_line_to_string_ok);
     double l = l_line->text().toDouble(&l_line_to_string_ok);
     double r0 = r0_line->text().toDouble(&r0_line_to_string_ok);
+    double a = a_line->text().toDouble(&a_line_to_string_ok);
+    double b = b_line->text().toDouble(&b_line_to_string_ok);
     double d = spiral_thickness_line->text().toDouble(&spiral_thickness_line_to_string_ok);
     double ph_size = ph_size_line->text().toDouble(&ph_size_line_ok)/1000;
-    if (shift_line_to_string_ok && sigma_line_to_string_ok && shift_angle_line_to_string_ok && z_line_to_string_ok && lambda_line_to_string_ok && l_line_to_string_ok && r0_line_to_string_ok && spiral_thickness_line_to_string_ok && ph_size_line_ok) {
-        class gauss_beam result_gauss(sigma, shift, shift_angle, spiral(z, lambda, l, r0, d, ph_size));
+    if (shift_line_to_string_ok && sigma_line_to_string_ok && shift_angle_line_to_string_ok && z_line_to_string_ok && lambda_line_to_string_ok && l_line_to_string_ok && r0_line_to_string_ok && a_line_to_string_ok && b_line_to_string_ok && spiral_thickness_line_to_string_ok && ph_size_line_ok) {
+        class gauss_beam result_gauss(sigma, shift, shift_angle, spiral(z, lambda, l, r0, a, b, d, ph_size, static_cast<enum spiral_type>(spiral_type_combo_box->currentIndex())));
         gauss_beam = result_gauss;
         return true;
     } else {

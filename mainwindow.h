@@ -83,6 +83,8 @@ private slots:
 
     void on_comboBox_activated(const QString &arg1);
 
+    void on_spiral_type_combo_box_activated(const QString &arg1);
+
     void on_polygonal_spiral_type_combo_box_activated(const QString &arg1);
 
 private:
