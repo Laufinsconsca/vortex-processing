@@ -45,6 +45,7 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
             double pitch = gauss_beam.polygonal_spiral_.pitch;
             double polygonal_spiral_thickness = gauss_beam.polygonal_spiral_.d;
             bool spiral, squareSpiral1, squareSpiral2 = false;
+            bool isSpiral = true;
             switch (gauss_beam.type) {
             case amplitude_type::gauss_type :
                 ref_beam.at(i).push_back((exp(-(pow(x - gauss_beam.shift, 2) + y * y) / (2 * gauss_beam.sigma * gauss_beam.sigma))));
@@ -59,6 +60,7 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
                                 && i < 0.75*size.height() && i > 0) //левая1
                             || (polygonal_spiral::line(r, angle-M_PI/6, 0.5, polygonal_spiral_thickness)
                                 && i < 0.75*size.height() && i > 0);  //правая1
+                    if (isSpiral) {
                     for (int p = 0; p < gauss_beam.polygonal_spiral_.total; p++) {
                         if (p < gauss_beam.polygonal_spiral_.skip) {
                             continue;
@@ -70,6 +72,10 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
                                 || (polygonal_spiral::line(r, angle-M_PI/6, 0.5-(p+1)*pitch*2, polygonal_spiral_thickness)
                                     && i < (0.75-(p+1)*pitch)*size.height() && i > 2*(p+1)*pitch*size.height());  //правая2
                     }
+                    } else {
+                        squareSpiral2 = squareSpiral2 || (polygonal_spiral::line(r, angle+M_PI/2, 0.5, polygonal_spiral_thickness)
+                                    && j < (0.5+sqrt(3)/4)*size.width() && j > (0.5-sqrt(3)/4)*size.width());
+                    }
                     break;
                 case polygonal_spiral_type::square :
                     squareSpiral1 = (polygonal_spiral::line(r, angle+M_PI, sqrt(2)/2, polygonal_spiral_thickness)
@@ -78,6 +84,7 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
                                 && j < (0.5+sqrt(2)/4)*size.width() && j > (0.5-sqrt(2)/4)*size.width()) // верхняя1
                             || (polygonal_spiral::line(r, angle, sqrt(2)/2, polygonal_spiral_thickness)
                                 && i < (0.5+sqrt(2)/4)*size.height() && i > (0.5-sqrt(2)/4)*size.height());  //правая1
+                    if (isSpiral) {
                     for (int p = 0; p < gauss_beam.polygonal_spiral_.total; p++) {
                         if (p < gauss_beam.polygonal_spiral_.skip) {
                             continue;
@@ -91,6 +98,10 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
                                 || (polygonal_spiral::line(r, angle, sqrt(2)/2-(p+1)*pitch*2, polygonal_spiral_thickness)
                                     && i < (0.5+sqrt(2)/4-(p+1)*pitch)*size.height() && i > (0.5-sqrt(2)/4+(p+1)*pitch)*size.height());  //правая2
                     }
+                    } else {
+                        squareSpiral2 = squareSpiral2 || (polygonal_spiral::line(r, angle+M_PI/2, sqrt(2)/2, polygonal_spiral_thickness)
+                                    && j < (0.5+sqrt(2)/4)*size.width() && j > (0.5-sqrt(2)/4)*size.width());
+                    }
                     break;
                 case polygonal_spiral_type::pentagonal :
                     squareSpiral1 = (polygonal_spiral::line(r, angle+M_PI-M_PI/10, polygonal_spiral::pentagon_inner_radius(1), polygonal_spiral_thickness)
@@ -101,6 +112,7 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
                                 && i < polygonal_spiral::top_left_y(0.5)*size.height() && i > 0)  //правая_верхняя1
                             || (polygonal_spiral::line(r, angle+M_PI/10, polygonal_spiral::pentagon_inner_radius(1), polygonal_spiral_thickness)
                                 && i < (0.5+polygonal_spiral::pentagon_inner_radius(0.5))*size.height() && i > 0.5*polygonal_spiral::top_left_y(0.5)*size.height());  //правая_нижняя1
+                    if (isSpiral) {
                     for (int p = 0; p < gauss_beam.polygonal_spiral_.total; p++) {
                         if (p < gauss_beam.polygonal_spiral_.skip) {
                             continue;
@@ -115,6 +127,10 @@ std::vector<std::vector<double>>& gauss_beam::gauss_beam_to_vector(const gauss_b
                                     && i < (1-polygonal_spiral::top_left_y(0.5)+(p+1)*pitch*sin(M_PI/10)/cos(M_PI/5))*size.height() && i > (p+1)*pitch/cos(M_PI/5)*size.height())  //правая_верхняя1
                                 || (polygonal_spiral::line(r, angle+M_PI/10, polygonal_spiral::pentagon_inner_radius(1)-(p+1)*pitch*2, polygonal_spiral_thickness)
                                     && i < (0.5+polygonal_spiral::pentagon_inner_radius(0.5)-(p+1)*pitch)*size.height() && i > (1-polygonal_spiral::top_left_y(0.5)+(p+1)*pitch*sin(M_PI/10)/cos(M_PI/5))*size.height());  //правая_нижняя1
+                    }
+                    } else {
+                        squareSpiral2 = squareSpiral2 || (polygonal_spiral::line(r, angle+M_PI/2, polygonal_spiral::pentagon_inner_radius(1), polygonal_spiral_thickness)
+                                    && j < (1-polygonal_spiral::bottom_left_x(0.5))*size.width() && j > (polygonal_spiral::bottom_left_x(0.5))*size.width());
                     }
                     break;
                 }
